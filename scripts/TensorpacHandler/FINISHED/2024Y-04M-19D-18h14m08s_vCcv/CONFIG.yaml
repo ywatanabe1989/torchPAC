@@ -1,0 +1,96 @@
+BATCH_SIZE:
+    - 2**0
+    - 2**1
+    - 2**2
+    - 2**3
+    - 2**4
+    - 2**5
+    - 2**6
+DEBUG_BATCH_SIZE:
+    - 2**0
+    - 2**1
+N_CHS:
+    - 2**0
+    - 2**1
+    - 2**2
+    - 2**3
+    - 2**4
+    - 2**5
+    - 2**6
+DEBUG_N_CHS:
+    - 2**0
+    - 2**1
+SEQ_LEN_SEC:
+    - 2**0
+    - 2**1
+    - 2**2
+    - 2**3
+    - 2**4
+    - 2**5
+    - 2**6
+    - 2**7
+    - 2**8
+    - 2**9
+    - 2**10
+    - 2**11
+    - 2**12
+    - 2**13
+    - 2**14
+DEBUG_SEQ_LENgth:
+    - 2**4
+    - 2**5
+FS_HZ:
+    - 2**8
+    - 2**9
+    - 2**10
+DEBUG_FS_HZ:
+    - 2**8
+    - 2**9
+N_SEGMENTS:
+    - 2**0
+    - 2**1
+    - 2**2
+    - 2**3
+    - 2**4
+    - 2**5
+DEBUG_N_SEGMENTS:
+    - 2**0
+    - 2**1
+N_BANDS_PHA:
+    - 2**0
+    - 2**1
+    - 2**2
+    - 2**3
+    - 2**4
+    - 2**5
+    - 2**6
+DEBUG_N_BANDS_PHA:
+    - 2**0
+    - 2**1
+N_BANDS_AMP:
+    - 2**0
+    - 2**1
+    - 2**2
+    - 2**3
+    - 2**4
+    - 2**5
+    - 2**6
+DEBUG_N_BANDS_AMP:
+    - 2**0
+    - 2**1
+PRECISION:
+    - fp16
+    - fp32
+DEVICE:
+    - cpu
+    - cuda
+PACKAGE:
+    - tensorpac
+    - mngs
+IS_DEBUG: false
+ID: 2024Y-04M-19D-18h14m08s_vCcv
+START_TIME: 2024-04-19 18:14:08.170019
+SDIR: 
+    /home/ywatanabe/proj/torchPAC/scripts/TensorpacHandler/RUNNING/2024Y-04M-19D-18h14m08s_vCcv/
+END_TIME: 2024-04-19 18:14:30.579577
+SPENT_TIME: 00:00:22
