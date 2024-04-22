@@ -7,6 +7,8 @@ $ python -m venv env && source ./env/bin/activate && python -m pip install -U pi
 
 # Introduction
 
+./scripts/monitor_processers.py
+
 # Methods
 <!-- - Implementation explanations
  !--   - [ ] Bandpass Filtering
