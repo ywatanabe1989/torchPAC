@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 12:46:03"
+# Time-stamp: "2024-04-23 14:22:50"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 """
@@ -8,11 +8,11 @@ This script does XYZ.
 """
 
 import sys
-from copy import deepcopy
 
 import matplotlib.pyplot as plt
 import mngs
 import numpy as np
+import pandas as pd
 import torch
 
 # Imports
@@ -121,6 +121,11 @@ def main(params, N_CALC=3):
     )
     mngs.io.save(model.stats, CONFIG["SDIR"] + "stats.csv")
 
+    del params["ts"]
+    mngs.io.save(
+        pd.DataFrame(pd.Series(params)).T, CONFIG["SDIR"] + "params.csv"
+    )
+
     # Close
     mngs.gen.close(CONFIG, verbose=False, notify=False)
 
@@ -133,6 +138,7 @@ if __name__ == "__main__":
         mngs.ml.utils.grid_search.yield_grids(PARAM_SPACES, random=True)
     ):
         main(params)
+        torch.cuda.empty_cache()
 
 
 # koko
