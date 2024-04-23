@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 18:32:03"
+# Time-stamp: "2024-04-23 19:18:09"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 """
@@ -103,17 +103,21 @@ def main(params):
         return None
 
     # Calculation
-    if params["no_grad"]:
-        with torch.no_grad():
+    try:
+        if params["no_grad"]:
+            with torch.no_grad():
+                for _ in range(params["n_calc"]):
+                    model.ts(model.calc_start_str)
+                    model.calc_pac(xx)
+                    model.ts(model.calc_end_str)
+        else:
             for _ in range(params["n_calc"]):
                 model.ts(model.calc_start_str)
                 model.calc_pac(xx)
                 model.ts(model.calc_end_str)
-    else:
-        for _ in range(params["n_calc"]):
-            model.ts(model.calc_start_str)
-            model.calc_pac(xx)
-            model.ts(model.calc_end_str)
+    except Exception as e:
+        print(e)
+        return None
 
     # Stats
     mngs.gen.print_block(
