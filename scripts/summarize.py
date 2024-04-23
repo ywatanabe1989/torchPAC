@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 14:56:06"
+# Time-stamp: "2024-04-23 18:30:14"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 
@@ -72,6 +72,20 @@ def link_results():
 def main():
     df = link_results()
 
+    # Convert columns that are categorical to the 'category' data type
+    categorical_columns = [
+        "fp16",  # categorical
+        "no_grad",  # categorical
+        "in_place",  # categorical
+        "trainable",  # categorical
+        "device",  # categorical
+        "use_threads",  # categorical
+        "package",  # categorical
+    ]
+    for col in categorical_columns:
+        df[col] = df[col].astype("category")
+
+    # All columns to plot
     columns = [
         "time",
         # "init_time_mean_sec",
@@ -84,16 +98,16 @@ def main():
         "amp_n_bands",
         "n_perm",
         "chunk_size",
-        "fp16",
-        "no_grad",
-        "in_place",
-        "trainable",
-        "device",
-        "use_threads",
-        "package",
-        "seq_len",
+        "fp16",  # categorical
+        "no_grad",  # categorical
+        "in_place",  # categorical
+        "trainable",  # categorical
+        "device",  # categorical
+        "use_threads",  # categorical
+        "package",  # categorical
     ]
 
+    # Plots
     fig = px.parallel_coordinates(
         df.reset_index(),
         dimensions=columns,  # Specify the order of axes if needed
@@ -127,6 +141,106 @@ def main():
     # )
 
     mngs.io.save(fig, "parallel_plot.png")
+
+
+def drop_cols(df):
+    cols_del = [
+        "time",
+        "init_time_mean_sec",
+        "init_time_std_sec",
+        "init_time_nn",
+        "calc_time_std_sec",
+        "calc_time_nn",
+        0,
+    ]
+
+    for k in cols_del:
+        del df[k]
+
+    df = df[~df.n_calc.isna()]
+
+    return df
+
+
+def get_indi(df, tgt_col=None):
+    cols = [
+        "batch_size",
+        "n_chs",
+        "n_segments",
+        "t_sec",
+        "fs",
+        "pha_n_bands",
+        "amp_n_bands",
+        "pha_n_bands",
+        "amp_n_bands",
+        "chunk_size",
+        "seq_len",
+        "n_calc",
+    ]
+
+    if tgt_col in cols:
+        cols.remove(tgt_col)
+
+    base_conditions = df[cols].min()
+    indi = []
+    for k, v in base_conditions.items():
+        indi.append(df[k] == v)
+    indi = np.array(indi).all(axis=0)
+    return indi
+
+
+def print_uniques(df):
+    print()
+    for k in df.columns:
+        print(k, df[k].unique())
+
+
+def plot(df, tgt_col):
+    # Slices the df
+    df = df[get_indi(df, tgt_col)]
+
+    # Plots
+    fig, ax = mngs.plt.subplots()
+    yy = df["calc_time_mean_sec"]
+    xx = df[tgt_col]
+    pp = df["package"]
+
+    if tgt_col == "seq_len":
+        import ipdb
+
+        ipdb.set_trace()
+
+    for _pp in pp.unique():
+        # Color
+        cc = {
+            "mngs": CC["blue"],
+            "tensorpac": CC["red"],
+        }[_pp]
+        # Slices for packages
+        _ii = np.array(pp == _pp)
+        _xx = np.array(xx[_ii])
+        _yy = np.array(yy[_ii])
+
+        # Sort according to the x axis
+        _ii = np.argsort(_xx)
+        _xx = _xx[_ii]
+        _yy = _yy[_ii]
+
+        ax.plot(_xx, _yy, label=_pp, color=cc)
+        ax.set_xyt(tgt_col, "Calculation time [s]", "PAC Calculation")
+        ax.legend()
+        # ax.set_yscale("log")
+    return fig
+
+
+def main():
+    df = link_results()
+    df = drop_cols(df)
+    # print_uniques(df)
+
+    for tgt_col in ["batch_size", "chunk_size", "seq_len", "n_calc"]:
+        fig = plot(df, tgt_col)
+        mngs.io.save(fig, tgt_col + ".png")
 
 
 if __name__ == "__main__":

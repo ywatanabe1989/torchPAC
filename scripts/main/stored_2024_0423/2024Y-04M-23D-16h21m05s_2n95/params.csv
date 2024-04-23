@@ -1,0 +1,2 @@
+,batch_size,n_chs,n_segments,t_sec,fs,pha_n_bands,amp_n_bands,n_perm,chunk_size,fp16,no_grad,in_place,trainable,device,use_threads,n_calc,package,seq_len
+0,16,1,1,4,512,10,10,,4,True,True,True,False,cuda,False,1,tensorpac,2048
