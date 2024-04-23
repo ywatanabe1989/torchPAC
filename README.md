@@ -7,6 +7,8 @@ $ python -m venv env && source ./env/bin/activate && python -m pip install -U pi
 
 # Introduction
 
+./scripts/monitor_processers.py
+
 # Methods
 <!-- - Implementation explanations
  !--   - [ ] Bandpass Filtering
@@ -25,6 +27,16 @@ $ python -m venv env && source ./env/bin/activate && python -m pip install -U pi
  !--     - mngs.dsp.demo_sig("pac")
  !--     - mngs.dsp.demo_sig("tensorpac")
  !--   - [ ] **Real Neuronal Signals** -->
+
+# Experiment
+
+``` bash
+sudo nvidia-smi -pm 1
+ss run_experiment
+./scripts/run_experiment.sh
+./scripts/main.py
+./scripts/summarize.py
+```
 
 # Results
 - Parameters
@@ -52,3 +64,10 @@ $ python -m venv env && source ./env/bin/activate && python -m pip install -U pi
 
 ## Contact
 Yusuke Watanabe (Yusuke.Watanabe@unimelb.edu.au)
+
+
+## Note
+Amdahl's law
+
+## Fixme
+no_grad?
