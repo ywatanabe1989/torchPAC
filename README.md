@@ -32,15 +32,8 @@ $ python -m venv env && source ./env/bin/activate && python -m pip install -U pi
 
 ``` bash
 sudo nvidia-smi -pm 1
-
-function run_experiment() {
-    rm ./scripts/main -rf
-    ./scripts/generate_param_spaces.py
-    ./scripts/record_processers.py -i 0.33 -r &
-    ./scripts/main.py
-    # kill_py
-    }
-run_experiment
+ss run_experiment
+./scripts/run_experiment.sh
 ./scripts/summarize.py
 ```
 
@@ -74,3 +67,6 @@ Yusuke Watanabe (Yusuke.Watanabe@unimelb.edu.au)
 
 ## Note
 Amdahl's law
+
+## Fixme
+no_grad?

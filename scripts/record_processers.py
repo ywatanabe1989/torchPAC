@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 13:16:57"
+# Time-stamp: "2024-04-23 15:34:13"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 
@@ -29,7 +29,9 @@ Functions & Classes
 
 
 def main(interval_s, reset):
-    mngs.res.rec_procs(limit_min=60, interval_s=interval_s, reset=reset)
+    mngs.res.rec_procs(
+        limit_min=60, interval_s=interval_s, reset=reset, verbose=False
+    )
 
 
 if __name__ == "__main__":
