@@ -1,51 +1,49 @@
 batch_size:
-    - 8
-    - 16
-    - 32
-    - 64
+    - 2
 n_chs:
-    - 8
-    - 16
-    - 32
-    - 64
-seq_len:
-    - 256
-    - 512
-    - 1024
-    - 2048
-    - 4096
-fs:
-    - 128
-    - 256
-    - 512
+    - 2
 n_segments:
+    - 3
+t_sec:
     - 1
     - 2
-    - 4
-    - 8
-    - 16
-n_bands_pha:
+fs:
+    - 512
+pha_n_bands:
+    - 10
+    - 30
+    - 50
+    - 70
+    - 100
+amp_n_bands:
+    - 10
+    - 30
+    - 50
+    - 70
+    - 100
+n_perm:
+    -
+chunk_size:
     - 1
     - 2
-    - 4
-    - 8
-    - 16
-    - 32
-    - 64
-n_bands_amp:
-    - 1
-    - 2
-    - 4
-    - 8
-    - 16
-    - 32
-    - 64
-precision:
-    - fp16
-    - fp32
+fp16:
+    - true
+    - false
+no_grad:
+    - true
+    - false
+in_place:
+    - false
+    - true
+trainable:
+    - false
+    - true
 device:
     - cpu
     - cuda
+use_threads:
+    - false
+    - true
 package:
     - tensorpac
     - mngs

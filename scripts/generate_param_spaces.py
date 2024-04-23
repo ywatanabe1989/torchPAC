@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-21 22:53:49"
+# Time-stamp: "2024-04-23 11:52:01"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 """
@@ -16,19 +16,52 @@ import mngs
 
 # Functions
 def main():
-    # Define parameter spaces
+    # # Define parameter spaces
+    # PARAMS_GRID = {
+    #     # Inputs shapes
+    #     "batch_size": [2**i for i in [3, 4, 5, 6]],
+    #     "n_chs": [2**i for i in [3, 4, 5, 6]],
+    #     "n_segments": [2**i for i in range(5)],
+    #     "t_sec": [1, 2, 4, 8],
+    #     # Signal properties
+    #     "fs": [512],
+    #     "pha_n_bands": [10, 30, 50, 70, 100],
+    #     "amp_n_bands": [10, 30, 50, 70, 100],
+    #     # Calculation options
+    #     "n_perm": [None],
+    #     "chunk_size": [1, 2, 4, 8],
+    #     "fp16": [True, False],
+    #     "in_place": [False, True],
+    #     "trainable": [False, True],
+    #     "device": ["cpu", "cuda"],
+    #     "use_threads": [False, True],
+    #     # Model switch
+    #     "package": ["tensorpac", "mngs"],
+    # }
+
     PARAMS_GRID = {
-        "batch_size": [2**i for i in [3, 4, 5, 6]],
-        "n_chs": [2**i for i in [3, 4, 5, 6]],
-        "seq_len": [2**i for i in range(8, 13)],
-        "fs": [2**i for i in range(7, 10)],
-        "n_segments": [2**i for i in range(5)],
-        "n_bands_pha": [2**i for i in range(7)],
-        "n_bands_amp": [2**i for i in range(7)],
-        "precision": ["fp16", "fp32"],
+        # Inputs shapes
+        "batch_size": [2],
+        "n_chs": [2],
+        "n_segments": [3],
+        "t_sec": [1, 2],
+        # Signal properties
+        "fs": [512],
+        "pha_n_bands": [10, 30, 50, 70, 100],
+        "amp_n_bands": [10, 30, 50, 70, 100],
+        # Calculation options
+        "n_perm": [None],
+        "chunk_size": [1, 2],
+        "fp16": [True, False],
+        "no_grad": [True, False],
+        "in_place": [False, True],
+        "trainable": [False, True],
         "device": ["cpu", "cuda"],
+        "use_threads": [False, True],
+        # Model switch
         "package": ["tensorpac", "mngs"],
     }
+
     print(PARAMS_GRID)
     print(f"{mngs.ml.utils.grid_search.count_grids(PARAMS_GRID):,}")
 
@@ -39,9 +72,9 @@ def main():
     params_grid = mngs.io.load("./config/PARAM_SPACES.yaml")
     assert params_grid == PARAMS_GRID
 
-    # Example of using the generator
-    for param_dict in mngs.ml.utils.grid_search.yield_grids(PARAMS_GRID):
-        print(param_dict)
+    # # Example of using the generator
+    # for param_dict in mngs.ml.utils.grid_search.yield_grids(PARAMS_GRID):
+    #     print(param_dict)
 
 
 if __name__ == "__main__":
