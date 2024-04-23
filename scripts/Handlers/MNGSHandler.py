@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 12:48:19"
+# Time-stamp: "2024-04-23 19:17:29"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 
@@ -13,8 +13,10 @@ import math
 
 import mngs
 import torch
+from mngs.general import timeout
 from scripts.Handlers import BaseHandler
 
+TIMEOUT_SEC = int(10 * 60)
 
 # Functions
 class MNGSHandler(BaseHandler):
@@ -102,6 +104,10 @@ class MNGSHandler(BaseHandler):
         )
         return model
 
+    @timeout(
+        seconds=TIMEOUT_SEC,
+        error_message=f"\nFunction call timed out after {TIMEOUT_SEC} seconds",
+    )
     def calc_pac(self, xx: torch.Tensor) -> torch.Tensor:
         """xx.shape: (batch_size, n_chs, n_segments, seq_len)"""
 

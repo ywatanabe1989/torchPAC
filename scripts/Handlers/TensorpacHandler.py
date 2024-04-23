@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 13:13:40"
+# Time-stamp: "2024-04-23 19:17:54"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 
@@ -14,7 +14,10 @@ from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
 import tensorpac
+from mngs.general import timeout
 from scripts.Handlers import BaseHandler
+
+TIMEOUT_SEC = int(10 * 60)
 
 
 # Functions
@@ -85,6 +88,10 @@ class TensorpacHandler(BaseHandler):
         model.idpac = (2, 0, 0)  # PAC using Modulation Index
         return model
 
+    @timeout(
+        seconds=TIMEOUT_SEC,
+        error_message=f"\nFunction call timed out after {TIMEOUT_SEC} seconds",
+    )
     def calc_pac(self, xx):
         if self.use_threads:
             return self._calc_pac_unfair_using_threads(xx)
