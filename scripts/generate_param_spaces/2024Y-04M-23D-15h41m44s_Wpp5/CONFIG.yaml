@@ -31,3 +31,10 @@ use_threads:
 package:
     - tensorpac
     - mngs
+IS_DEBUG: false
+ID: 2024Y-04M-23D-15h41m44s_Wpp5
+START_TIME: 2024-04-23 15:41:44.653009
+SDIR: 
+    /home/ywatanabe/proj/torchPAC/scripts/generate_param_spaces/RUNNING/2024Y-04M-23D-15h41m44s_Wpp5/
+END_TIME: 2024-04-23 15:41:45.746426
+SPENT_TIME: 00:00:01
