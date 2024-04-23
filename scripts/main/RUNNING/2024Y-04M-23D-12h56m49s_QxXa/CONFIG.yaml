@@ -47,3 +47,10 @@ use_threads:
 package:
     - tensorpac
     - mngs
+IS_DEBUG: false
+ID: 2024Y-04M-23D-12h56m49s_QxXa
+START_TIME: 2024-04-23 12:56:49.514370
+SDIR: 
+    /home/ywatanabe/proj/entrance/torchPAC/scripts/main/RUNNING/2024Y-04M-23D-12h56m49s_QxXa/
+END_TIME: 2024-04-23 12:56:50.548348
+SPENT_TIME: 00:00:01

@@ -1,49 +1,76 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-22 22:10:20"
+# Time-stamp: "2024-04-23 12:48:19"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 
 """
-This script defines MNGSHandler and TensorpacHandler, bsaed on BaseHandler.
+This script defines MNGSHandler.
 """
 
-import math
-import sys
-import warnings
-from abc import ABC, abstractmethod
-from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass, field
-from typing import List, Optional, Type, Union
-
-import matplotlib.pyplot as plt
-import mngs
-import numpy as np
-import pandas as pd
-import tensorpac
-import torch
-from mngs.general import torch_fn
-
 # Imports
+import math
+
+import mngs
+import torch
 from scripts.Handlers import BaseHandler
 
-warnings.simplefilter("ignore", UserWarning)
 
 # Functions
 class MNGSHandler(BaseHandler):
     def __init__(
         self,
-        **kwargs,
+        seq_len,
+        fs,
+        pha_n_bands,
+        pha_min_hz,
+        pha_max_hz,
+        amp_n_bands,
+        amp_min_hz,
+        amp_max_hz,
+        n_perm,
+        chunk_size,
+        fp16,
+        in_place,
+        trainable,
+        device,
+        use_threads,
+        ts,
     ):
+        # Maintains parameters as attributes by following the BaseHandler's requirements
         super().__init__(
-            **kwargs,
+            seq_len,
+            fs,
+            pha_n_bands,
+            pha_min_hz,
+            pha_max_hz,
+            amp_n_bands,
+            amp_min_hz,
+            amp_max_hz,
+            n_perm,
+            chunk_size,
+            fp16,
+            in_place,
+            trainable,
+            device,
+            use_threads,
+            ts,
         )
+
+        # Explicitly disables unneccessary variables for this class.
+        # Since parameters are passed using the grid search method, the above parameters should be accepted.
+        del self.use_threads
+
+        self.ts(self.init_start_str)
+
+        # Model Initialization
         self.model = self.init_model()
+
+        self.ts(self.init_end_str)
 
     def init_model(
         self,
     ):
-        self.ts(self.init_start_str)
         # model = mngs.nn.PAC(
         #     self.seq_len,
         #     self.fs,
@@ -58,59 +85,65 @@ class MNGSHandler(BaseHandler):
         model = mngs.nn.PAC_dev(
             self.seq_len,
             self.fs,
+            # Phase
+            pha_start_hz=self.pha_min_hz,
+            pha_end_hz=self.pha_max_hz,
             pha_n_bands=self.pha_n_bands,
+            # Amplitude
             amp_n_bands=self.amp_n_bands,
+            amp_start_hz=self.amp_min_hz,
+            amp_end_hz=self.amp_max_hz,
+            # Surrogation
             n_perm=self.n_perm,
+            # Calculation
             fp16=self.fp16,
             in_place=self.in_place,
             trainable=self.trainable,
         )
-        self.ts(self.init_end_str)
         return model
 
-    def calc_pac(self, xx, chunk_size=3):  # fixme
-        # self.ts(self.calc_start_str)
+    def calc_pac(self, xx: torch.Tensor) -> torch.Tensor:
+        """xx.shape: (batch_size, n_chs, n_segments, seq_len)"""
 
-        # self.input_shape = xx.shape
-
+        # Ensures the input properties
         assert xx.ndim == 4
+        assert xx.dtype == torch.float16 if self.fp16 else torch.float32
 
-        xx = self.xx_dim_handler.fit(xx, keepdims=[-2, -1])
+        xx = self.dim_handler.fit(xx, keepdims=[-2, -1])  # fixme
 
         # Batch processing to limit RAM/VRAM usage
-        n_chunks = math.ceil(len(xx) / chunk_size)
-        if chunk_size == 1:
+        n_chunks = math.ceil(len(xx) / self.chunk_size)
+        if self.chunk_size == 1:
             # add the first dimension to be accepted
-            pac = torch.vstack(
+            xpac = torch.vstack(
                 [
                     self.model(
                         xx[
-                            i_batch * chunk_size : (i_batch + 1) * chunk_size
+                            i_batch
+                            * self.chunk_size : (i_batch + 1)
+                            * self.chunk_size
                         ].unsqueeze(0)
-                    )
+                    ).unsqueeze(0)
                     for i_batch in range(n_chunks)
                 ]
             )
         else:
-            pac = torch.vstack(
+            xpac = torch.vstack(
                 [
                     self.model(
-                        xx[i_batch * chunk_size : (i_batch + 1) * chunk_size]
+                        xx[
+                            i_batch
+                            * self.chunk_size : (i_batch + 1)
+                            * self.chunk_size
+                        ]
                     )
                     for i_batch in range(n_chunks)
                 ]
             )
 
-        pac = self.xx_dim_handler.unfit(pac)
+        xpac = self.dim_handler.unfit(xpac)  # fixme
 
-        # # Takes mean across n_segments
-        # pac = pac.mean(dim=-3)
-
-        # # self.ts(self.calc_end_str)
-
-        # self.output_shape = pac.shape
-
-        return pac
+        return xpac
 
     def __str__(
         self,

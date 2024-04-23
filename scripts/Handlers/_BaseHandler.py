@@ -1,79 +1,147 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-22 22:06:26"
+# Time-stamp: "2024-04-23 12:32:55"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 
 """
-This script defines MNGSHandler and TensorpacHandler, bsaed on BaseHandler.
+This script defines BaseHandler.
 """
 
 # Imports
-import math
-import sys
-import warnings
 from abc import ABC, abstractmethod
-from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass, field
-from typing import List, Optional, Type, Union
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Type, Union
 
-import matplotlib.pyplot as plt
 import mngs
 import numpy as np
 import pandas as pd
-import tensorpac
-import torch
-from mngs.general import torch_fn
 
-warnings.simplefilter("ignore", UserWarning)
 
 # Functions
 @dataclass
 class BaseHandler(ABC):
-    seq_len: int = None
-    fs: float = None
+    # Signal properties
+    seq_len: int
+    fs: float
 
-    pha_min_hz: Union[int, float] = 2
-    pha_max_hz: Union[int, float] = 20
-    pha_n_bands: Union[int, float] = 50
-    amp_min_hz: Union[int, float] = 2
-    amp_max_hz: Union[int, float] = 20
-    amp_n_bands: Union[int, float] = 50
+    # Model
+    device: [str]
+    model: [Type]
 
-    n_perm: int = None
-    fp16: Optional[bool] = True
-    in_place: Optional[bool] = True
-    trainable: Optional[bool] = True
+    # Phase
+    pha_min_hz: Union[int, float]
+    pha_max_hz: Union[int, float]
+    pha_n_bands: Union[int, float]
 
-    device: Optional[str] = None
-    # input_shape: Optional[List[int]] = field(default_factory=list)
-    # output_shape: Optional[List[int]] = field(default_factory=list)
-    model: Optional[Type] = None
-    xx_dim_handler = mngs.gen.DimHandler()
-    pha_dim_handler = mngs.gen.DimHandler()
-    amp_dim_handler = mngs.gen.DimHandler()
+    # Amplitude
+    amp_min_hz: Union[int, float]
+    amp_max_hz: Union[int, float]
+    amp_n_bands: Union[int, float]
+
+    # Surrogate
+    n_perm: int
+
+    # Calculation options
+    chunk_size: int
+    fp16: bool
+    in_place: bool
+    trainable: bool
+    use_threads: bool
+
+    # Delete me
+    dim_handler = mngs.gen.DimHandler()
     ts = None
+
+    # Optional
     init_start_str = "Model Initialization Starts"
     init_end_str = "Model Initialization Ends"
     calc_start_str = "PAC Calculation Starts"
     calc_end_str = "PAC Calculation Ends"
 
+    # seq_len: int = None
+    # fs: float = None
+
+    # # Model
+    # device: Optional[str] = None
+    # model: Optional[Type] = None
+
+    # # Phase
+    # pha_min_hz: Union[int, float] = 2
+    # pha_max_hz: Union[int, float] = 20
+    # pha_n_bands: Union[int, float] = 50
+
+    # # Amplitude
+    # amp_min_hz: Union[int, float] = 2
+    # amp_max_hz: Union[int, float] = 20
+    # amp_n_bands: Union[int, float] = 50
+
+    # # Surrogate
+    # n_perm: int = None
+
+    # # Calculation options
+    # fp16: Optional[bool] = True
+    # in_place: Optional[bool] = True
+    # trainable: Optional[bool] = True
+
+    # dim_handler = mngs.gen.DimHandler()
+    # pha_dim_handler = mngs.gen.DimHandler()
+    # amp_dim_handler = mngs.gen.DimHandler()
+    # ts = mngs.gen.TimeStamper()
+    # init_start_str = "Model Initialization Starts"
+    # init_end_str = "Model Initialization Ends"
+    # calc_start_str = "PAC Calculation Starts"
+    # calc_end_str = "PAC Calculation Ends"
+
     @abstractmethod
-    def __init__(self, **kwargs):
-        self.seq_len = kwargs.get("seq_len", None)
-        self.fs = kwargs.get("fs", None)
-        self.pha_min_hz = kwargs.get("pha_min_hz", 2)
-        self.pha_max_hz = kwargs.get("pha_max_hz", 20)
-        self.pha_n_bands = kwargs.get("pha_n_bands", 50)
-        self.amp_n_bands = kwargs.get("amp_n_bands", 50)
-        self.amp_min_hz = kwargs.get("amp_min_hz", 50)
-        self.amp_max_hz = kwargs.get("amp_max_hz", 160)
-        self.n_perm = kwargs.get("n_perm", None)
-        self.fp16 = kwargs.get("fp16", None)
-        self.in_place = kwargs.get("in_place", None)
-        self.trainable = kwargs.get("trainable", None)
-        self.device = kwargs.get("device", None)
-        self.ts = kwargs.get("ts", None)
+    def __init__(
+        self,
+        seq_len,
+        fs,
+        pha_n_bands,
+        pha_min_hz,
+        pha_max_hz,
+        amp_n_bands,
+        amp_min_hz,
+        amp_max_hz,
+        n_perm,
+        chunk_size,
+        fp16,
+        in_place,
+        trainable,
+        device,
+        use_threads,
+        ts,
+    ):
+
+        # Signal properties
+        self.seq_len = seq_len
+        self.fs = fs
+
+        # Phase
+        self.pha_n_bands = pha_n_bands
+        self.pha_min_hz = pha_min_hz
+        self.pha_max_hz = pha_max_hz
+
+        # Amplitude
+        self.amp_n_bands = amp_n_bands
+        self.amp_min_hz = amp_min_hz
+        self.amp_max_hz = amp_max_hz
+
+        # Surrogate
+        self.n_perm = n_perm
+
+        # Calculation options
+        self.chunk_size = chunk_size
+        self.fp16 = fp16
+        self.in_place = in_place
+        self.trainable = trainable
+        self.device = device
+        self.use_threads = use_threads
+
+        # Time Stamper
+        self.ts = ts
 
     @abstractmethod
     def init_model(self, **kwargs):
@@ -140,6 +208,7 @@ class BaseHandler(ABC):
         calc_delta_times_nn = len(calc_delta_times)
 
         dic = {
+            "time": get_middle_time(calc_start_times[0], calc_end_times[-1]),
             # Initialization metrics
             "init_time_mean_sec": init_delta_times_mm,
             "init_time_std_sec": init_delta_times_ss,
@@ -163,3 +232,28 @@ class BaseHandler(ABC):
         ).round(3)
 
         return df
+
+
+def get_middle_time(dt1, dt2):
+    """
+    Returns the middle time between two datetime objects.
+
+    Parameters:
+    - dt1, dt2: datetime.datetime objects.
+
+    Returns:
+    - datetime.datetime object representing the middle time between dt1 and dt2.
+    """
+    # Ensure dt1 is the earlier and dt2 is the later datetime
+    if dt1 > dt2:
+        dt1, dt2 = dt2, dt1
+
+    # Calculate the difference and divide by 2 to find the middle timedelta
+    half_diff = (dt2 - dt1) / 2
+
+    # Add the half difference to the first datetime to get the middle time
+    middle_time = dt1 + half_diff
+
+    middle_time = datetime.fromtimestamp(middle_time)
+
+    return middle_time

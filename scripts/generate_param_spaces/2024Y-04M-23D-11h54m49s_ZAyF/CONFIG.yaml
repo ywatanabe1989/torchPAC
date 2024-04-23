@@ -29,9 +29,6 @@ chunk_size:
 fp16:
     - true
     - false
-no_grad:
-    - true
-    - false
 in_place:
     - false
     - true
@@ -47,3 +44,10 @@ use_threads:
 package:
     - tensorpac
     - mngs
+IS_DEBUG: false
+ID: 2024Y-04M-23D-11h54m49s_ZAyF
+START_TIME: 2024-04-23 11:54:49.136622
+SDIR: 
+    /home/ywatanabe/proj/entrance/torchPAC/scripts/generate_param_spaces/RUNNING/2024Y-04M-23D-11h54m49s_ZAyF/
+END_TIME: 2024-04-23 11:54:50.231122
+SPENT_TIME: 00:00:01
