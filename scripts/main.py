@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 15:42:08"
+# Time-stamp: "2024-04-23 18:32:03"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 """
@@ -34,6 +34,7 @@ def init_model(params):
             "t_sec",
             "package",
             "no_grad",
+            "n_calc",
         ]:
             del params_h[k]
 
@@ -55,6 +56,7 @@ def prepare_signal(params):
             batch_size=params["batch_size"],
             n_chs=params["n_chs"],
             t_sec=params["t_sec"],
+            fs=params["fs"],
             n_segments=params["n_segments"],
             sig_type="pac",
         )
@@ -75,7 +77,7 @@ def prepare_signal(params):
         print(e)
 
 
-def main(params, N_CALC=3):
+def main(params):
     import matplotlib.pyplot as plt
 
     ts = mngs.gen.TimeStamper()
@@ -103,12 +105,12 @@ def main(params, N_CALC=3):
     # Calculation
     if params["no_grad"]:
         with torch.no_grad():
-            for _ in range(N_CALC):
+            for _ in range(params["n_calc"]):
                 model.ts(model.calc_start_str)
                 model.calc_pac(xx)
                 model.ts(model.calc_end_str)
     else:
-        for _ in range(N_CALC):
+        for _ in range(params["n_calc"]):
             model.ts(model.calc_start_str)
             model.calc_pac(xx)
             model.ts(model.calc_end_str)
