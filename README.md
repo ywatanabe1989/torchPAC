@@ -28,6 +28,22 @@ $ python -m venv env && source ./env/bin/activate && python -m pip install -U pi
  !--     - mngs.dsp.demo_sig("tensorpac")
  !--   - [ ] **Real Neuronal Signals** -->
 
+# Experiment
+
+``` bash
+sudo nvidia-smi -pm 1
+
+function run_experiment() {
+    rm ./scripts/main -rf
+    ./scripts/generate_param_spaces.py
+    ./scripts/record_processers.py -i 0.33 -r &
+    ./scripts/main.py
+    # kill_py
+    }
+run_experiment
+./scripts/summarize.py
+```
+
 # Results
 - Parameters
 
@@ -56,32 +72,5 @@ $ python -m venv env && source ./env/bin/activate && python -m pip install -U pi
 Yusuke Watanabe (Yusuke.Watanabe@unimelb.edu.au)
 
 
-## Fixme
-```
-########################################
-## 2024Y-04M-23D-12h46m06s_1ao4
-########################################
-
-
-----------------------------------------
-{'batch_size': 2, 'n_chs': 2, 'n_segments': 3, 't_sec': 2, 'fs': 512, 'pha_n_bands': 30, 'amp_n_bands': 70, 'n_perm': None, 'chunk_size': 2, 'fp16': False, 'no_grad': True, 'in_place': True, 'trainable': False, 'device': 'cpu', 'use_threads': True, 'package': 'mngs', 'ts': <mngs.gen._TimeStamper.TimeStamper object at 0x7ffb0492b2e0>}
-----------------------------------------
-
-/home/ywatanabe/proj/mngs/src/mngs/general/_converters.py:88: UserWarning: Converted from ndarray to Tensor (cpu). You might want to consider using Tensor (cpu) as input for faster computation.
-  warnings.warn(
-
-----------------------------------------
-mngs
-0.099 +/- 0.002 sec
-----------------------------------------
-
-
-Saved to: /home/ywatanabe/proj/entrance/torchPAC/scripts/main/RUNNING/2024Y-04M-23D-12h46m06s_1ao4/stats.csv
-
-
-----------------------------------------
-Congratulations! The script completed.
-
-/home/ywatanabe/proj/entrance/torchPAC/scripts/main/2024Y-04M-23D-12h46m06s_1ao4/
-----------------------------------------
-```
+## Note
+Amdahl's law
