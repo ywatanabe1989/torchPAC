@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 15:34:13"
+# Time-stamp: "2024-04-23 19:24:00"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 
@@ -16,6 +16,7 @@ import sys
 
 import matplotlib.pyplot as plt
 import mngs
+from mngs.general import timeout
 
 """
 Config
@@ -30,7 +31,7 @@ Functions & Classes
 
 def main(interval_s, reset):
     mngs.res.rec_procs(
-        limit_min=60, interval_s=interval_s, reset=reset, verbose=False
+        limit_min=60 * 24, interval_s=interval_s, reset=reset, verbose=False
     )
 
 
