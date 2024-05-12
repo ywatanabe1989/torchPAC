@@ -33,9 +33,7 @@ $ python -m venv env && source ./env/bin/activate && python -m pip install -U pi
 ``` bash
 sudo nvidia-smi -pm 1
 ss run_experiment
-./scripts/run_experiment.sh
-./scripts/main.py
-./scripts/summarize.py
+./run_experiment.sh
 ```
 
 # Results

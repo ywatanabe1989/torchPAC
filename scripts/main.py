@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 19:18:09"
+# Time-stamp: "2024-04-23 19:26:05"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 """
@@ -133,7 +133,7 @@ def main(params):
     )
 
     # Close
-    mngs.gen.close(CONFIG, verbose=False, notify=True)
+    mngs.gen.close(CONFIG, verbose=False, notify=False)
 
     del model
 
