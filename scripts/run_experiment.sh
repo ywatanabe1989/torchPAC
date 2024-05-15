@@ -15,8 +15,8 @@ function run_experiment() {
     rm ./scripts/main/2024YY* -rf &&
     rm ./scripts/main/RUNNING/ -rf &&    
 
-    # Define parameter spaces
-    ./scripts/generate_param_spaces.py
+    # # Define parameter spaces
+    # ./scripts/generate_param_spaces.py
 
     # Start logging CPU / GPU usages
     ./scripts/record_processers.py -i 0.33 -r &
