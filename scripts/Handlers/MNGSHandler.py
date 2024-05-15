@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 19:17:29"
+# Time-stamp: "2024-05-16 08:35:06 (ywatanabe)"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 
@@ -84,7 +84,7 @@ class MNGSHandler(BaseHandler):
         #     # trainable=self.trainable,
         # )
 
-        model = mngs.nn.PAC_dev(
+        model = mngs.nn.PAC(
             self.seq_len,
             self.fs,
             # Phase

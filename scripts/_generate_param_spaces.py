@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 18:36:14"
+# Time-stamp: "2024-05-16 08:21:02 (ywatanabe)"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 """
@@ -53,7 +53,7 @@ def main():
         "pha_n_bands": [10, 30, 50, 70, 100],
         "amp_n_bands": [10, 30, 50, 70, 100],
         # Calculation options
-        "n_perm": [None],
+        "n_perm": [1, 2, 4, 8, 16],
         "chunk_size": [1, 2, 4, 8],
         "fp16": [True, False],
         "in_place": [False, True],
