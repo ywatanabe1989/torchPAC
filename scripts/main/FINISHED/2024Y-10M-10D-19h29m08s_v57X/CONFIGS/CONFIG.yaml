@@ -1,0 +1,43 @@
+IS_DEBUG: false
+batch_size:
+    - 8
+n_chs:
+    - 8
+n_segments:
+    - 1
+t_sec:
+    - 1
+fs:
+    - 512
+pha_n_bands:
+    - 10
+amp_n_bands:
+    - 10
+n_perm:
+    - 2
+    - 4
+chunk_size:
+    - 1
+fp16:
+    - true
+no_grad:
+    - true
+in_place:
+    - false
+trainable:
+    - false
+device:
+    - cuda
+use_threads:
+    - true
+n_calc:
+    - 8
+package:
+    - tensorpac
+    - mngs
+ID: 2024Y-10M-10D-19h29m08s_v57X
+START_TIME: 2024-10-10 19:29:08.611976
+SDIR: /home/ywatanabe/proj/torchPAC/scripts/main/RUNNING/2024Y-10M-10D-19h29m08s_v57X/
+REL_SDIR: ./main/
+END_TIME: 2024-10-10 20:09:55.899945
+SPENT_TIME: 00:40:47

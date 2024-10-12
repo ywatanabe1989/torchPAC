@@ -1,12 +1,9 @@
-#!./env/bin/python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-05-16 08:35:06 (ywatanabe)"
+# Time-stamp: "2024-10-10 18:42:09 (ywatanabe)"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
-
-"""
-This script defines MNGSHandler.
-"""
+"""This script defines MNGSHandler."""
 
 # Imports
 import math
@@ -104,10 +101,10 @@ class MNGSHandler(BaseHandler):
         )
         return model
 
-    @timeout(
-        seconds=TIMEOUT_SEC,
-        error_message=f"\nFunction call timed out after {TIMEOUT_SEC} seconds",
-    )
+    # @timeout(
+    #     seconds=TIMEOUT_SEC,
+    #     error_message=f"\nFunction call timed out after {TIMEOUT_SEC} seconds",
+    # )
     def calc_pac(self, xx: torch.Tensor) -> torch.Tensor:
         """xx.shape: (batch_size, n_chs, n_segments, seq_len)"""
 

@@ -1,10 +1,19 @@
-#!./env/bin/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-05-16 08:21:02 (ywatanabe)"
+# Time-stamp: "2024-10-10 17:51:54 (ywatanabe)"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
+# ./scripts/_generate_param_spaces.py
 
 """
-This script generates parameter spaces in this project.
+Functionality:
+    * Generates and saves parameter spaces for the torchPAC project.
+Input:
+    * None (uses predefined parameter grids)
+Output:
+    * Saved YAML file with parameter spaces (./config/PARAM_SPACES.yaml)
+Prerequisites:
+    * mngs package
+    * matplotlib
 """
 
 # Imports

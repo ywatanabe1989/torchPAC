@@ -1,6 +1,6 @@
-#!./env/bin/python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 19:17:54"
+# Time-stamp: "2024-10-10 18:40:20 (ywatanabe)"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 
@@ -63,7 +63,7 @@ class TensorpacHandler(BaseHandler):
 
         # Explicitly disables unneccessary variables for this class.
         # Since parameters are passed using the grid search method, the above parameters should be accepted.
-        del self.in_place, self.trainable, self.device
+        del self.in_place, self.trainable#, self.device
 
         self.ts(self.init_start_str)
         # Model Initialization
