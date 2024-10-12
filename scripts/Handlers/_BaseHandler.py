@@ -1,4 +1,4 @@
-#!./env/bin/python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Time-stamp: "2024-04-23 12:32:55"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
