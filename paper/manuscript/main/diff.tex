@@ -1,7 +1,7 @@
 \UseRawInputEncoding
 %DIF LATEXDIFF DIFFERENCE FILE
-%DIF DEL ./main/manuscript.tex   Thu Oct 17 22:14:57 2024
-%DIF ADD ./main/manuscript.tex   Thu Oct 17 22:14:57 2024
+%DIF DEL ./main/manuscript.tex   Thu Oct 17 23:09:11 2024
+%DIF ADD ./main/manuscript.tex   Thu Oct 17 23:09:11 2024
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% SETTINGS
@@ -268,31 +268,28 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Frontmatter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% \begin{frontmatter}
-\begin{highlights}
-\pdfbookmark[1]{Highlights}{highlights}
+\begin{frontmatter}
+%% \begin{highlights}
+%% \pdfbookmark[1]{Highlights}{highlights}
 
-\item Highlight \#1
+%% \item Highlight \#1
 
-\item Highlight \#2
+%% \item Highlight \#2
 
-\item Highlight \#3
+%% \item Highlight \#3
 
-\item Highlight \#4
+%% \item Highlight \#4
 
-\end{highlights}
+%% \end{highlights}
 \title{
-Paper Title Here
+GPU-accerelated implementation of phase-amplitude coupling
 }
-\author[1]{Yusuke Watanabe\corref{cor1}}
-\author[2,3,4]{Author \#2}
-\author[1,5]{Author \#3}
+\author[1,2]{Yusuke Watanabe\corref{cor1}}
+\author[1,5]{Takufumi Yanagisawa}
 
-\address[1]{Department of Biomedical Engineering, The University of Melbourne, Melbourne, Victoria, 3010, Australia}
-\address[2]{address \#2}
-\address[3]{address \#3}
-\address[4]{address \#4}
-\address[5]{address \#5}
+\address[1]{Institute for Advanced Cocreation studies, Osaka University, 2-2 Yamadaoka, Suita, 565-0871, Osaka, Japan}
+\address[2]{NeuroEngineering Research Laboratory, Department of Biomedical Engineering, The University of Melbourne, Parkville VIC 3010, Australia}
+\address[5]{Department of Neurosurgery, Osaka University Graduate School of Medicine, 2-2 Yamadaoka, Osaka, 565-0871, Japan}
 
 \cortext[cor1]{Corresponding author. Tel: +XX-X-XXXX-XXXX Email: ywatanabe@alumni.u-tokyo.ac.jp}
 %%Graphical abstract
@@ -307,9 +304,9 @@ Abstract here.
 
 % \pdfbookmark[1]{Keywords}{keywords}                
 \begin{keyword}
-keyword \#1 \sep keyword \#2 \sep keyword \#3 \sep keyword \#4 \sep keyword \#5
+phase-amplitude coupling \sep gpu \sep parallel computing
 \end{keyword}
-%% \end{frontmatter}
+\end{frontmatter}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Counters
@@ -369,10 +366,9 @@ Discussion here.
 %% DATA AVAILABILITY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pdfbookmark[1]{Data Availability Statement}{data_availability}
-
-% \pdfbookmark[2]{Data and code availability}{data_and_code_availability}                    
 \section*{Data Availability Statement}
-The data is available on ...
+Data and code used in this study is available on https://github.com/ywatanabe1989/torchPAC.
+
 \label{data and code availability}
 
 
