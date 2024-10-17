@@ -25,11 +25,30 @@ convert_pptx_to_tif() {
 
     local input_file_win=$(wslpath -w "$input_file")
     local output_file_win=$(wslpath -w "$output_file")
-
+    local script_dir="$(dirname "$(realpath "$0")")"
+    local ps_script="./scripts/ps1/pptx2tiff.ps1"    
+    local powershell=/home/ywatanabe/.win-bin/powershell.exe
+    
     echo -e "\nConverting ${input_file}...\n"
 
-    local poweshell=/home/ywatanabe/.win-bin/powershell.exe
-    "$powershell" -ExecutionPolicy Bypass -File "$(wslpath -w ./scripts/ps1/pptx2tiff.ps1)" -inputFilePath "$input_file_win" -outputFilePath "$output_file_win" 2>&1
+    if [ ! -f "$powershell" ]; then
+        echo "Error: PowerShell executable not found at $powershell"
+        exit 1
+    fi
+
+    if [ ! -f "$ps_script" ]; then
+        echo "Error: PowerShell script not found at $ps_script"
+        exit 1
+    fi
+        
+    if [ ! -f "$input_file" ]; then
+        echo "Error: Input file does not exist."
+        exit 1
+    fi
+
+    "$powershell" -ExecutionPolicy Bypass -File "$ps_script" -inputFilePath "$input_file_win" -outputFilePath "$output_file_win" 2>&1
+
+    # "$powershell" -ExecutionPolicy Bypass -File "$(wslpath -w ./scripts/ps1/pptx2tiff.ps1)" -inputFilePath "$input_file_win" -outputFilePath "$output_file_win" 2>&1
     ps_exit_code=$?
 
     if [ $ps_exit_code -ne 0 ]; then
@@ -83,6 +102,6 @@ main() {
 
 { main "$@" ; } 2>&1 | tee "$LOG_FILE"
 
-# ./scripts/sh/modules/pptx2tif.sh -i /home/ywatanabe/proj/ripple-wm/paper/manuscript/src/figures/src/Figure_ID_10_vswr_jump.pptx 
+# ./scripts/sh/modules/pptx2tif.sh -i /home/ywatanabe/proj/ripple-wm/paper/manuscript/src/figures/src/Figure_ID_10_vswr_jump.pptx
 
 # EOF
