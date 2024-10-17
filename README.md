@@ -4,13 +4,15 @@
 ## Installation
 ./docs/installation.md
 
+## Parameters
+./scripts/utils/_generate_param_spaces.py
+
 
 # Experiment
 
 ``` bash
 sudo nvidia-smi -pm 1
-ss torch_PAC_run_experiment 
-./scripts/run_experiment.sh
+sb torch_PAC_run_experiment ./scripts/run_experiment.sh
 ```
 
 # Results
