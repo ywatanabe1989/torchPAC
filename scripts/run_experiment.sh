@@ -1,5 +1,5 @@
 #!/bin/bash
-# Time-stamp: "2024-11-04 12:17:14 (ywatanabe)"
+# Time-stamp: "2024-11-04 14:56:10 (ywatanabe)"
 # File: ./torchPAC/scripts/run_experiment.sh
 
 
@@ -21,6 +21,7 @@ kill_py() {
 }
 
 initialize() {
+    sudo nvidia-smi -pm 1
     # Preparation
     kill_py
     rm -rf \
