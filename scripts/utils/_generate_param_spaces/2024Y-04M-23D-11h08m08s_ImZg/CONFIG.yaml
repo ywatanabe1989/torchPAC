@@ -1,0 +1,70 @@
+batch_size:
+    - 8
+    - 16
+    - 32
+    - 64
+n_chs:
+    - 8
+    - 16
+    - 32
+    - 64
+n_segments:
+    - 1
+    - 2
+    - 4
+    - 8
+    - 16
+seq_len:
+    - 256
+    - 512
+    - 1024
+    - 2048
+    - 4096
+fs:
+    - 128
+    - 256
+    - 512
+pha_n_bands:
+    - 10
+    - 30
+    - 50
+    - 70
+    - 100
+amp_n_bands:
+    - 10
+    - 30
+    - 50
+    - 70
+    - 100
+n_perm:
+    -
+chunk_size:
+    - 1
+    - 2
+    - 4
+    - 8
+fp16:
+    - true
+    - false
+in_place:
+    - false
+    - true
+trainable:
+    - false
+    - true
+device:
+    - cpu
+    - cuda
+use_threads:
+    - false
+    - true
+package:
+    - tensorpac
+    - mngs
+IS_DEBUG: false
+ID: 2024Y-04M-23D-11h08m08s_ImZg
+START_TIME: 2024-04-23 11:08:08.444491
+SDIR: 
+    /home/ywatanabe/proj/torchPAC/scripts/generate_param_spaces/RUNNING/2024Y-04M-23D-11h08m08s_ImZg/
+END_TIME: 2024-04-23 11:08:09.540237
+SPENT_TIME: 00:00:01

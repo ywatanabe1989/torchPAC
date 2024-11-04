@@ -1,0 +1,56 @@
+batch_size:
+    - 2
+n_chs:
+    - 2
+n_segments:
+    - 3
+t_sec:
+    - 1
+    - 2
+fs:
+    - 512
+pha_n_bands:
+    - 10
+    - 30
+    - 50
+    - 70
+    - 100
+amp_n_bands:
+    - 10
+    - 30
+    - 50
+    - 70
+    - 100
+n_perm:
+    -
+chunk_size:
+    - 1
+    - 2
+fp16:
+    - true
+    - false
+no_grad:
+    - true
+    - false
+in_place:
+    - false
+    - true
+trainable:
+    - false
+    - true
+device:
+    - cpu
+    - cuda
+use_threads:
+    - false
+    - true
+package:
+    - tensorpac
+    - mngs
+IS_DEBUG: false
+ID: 2024Y-04M-23D-14h45m33s_HlDi
+START_TIME: 2024-04-23 14:45:33.159663
+SDIR: 
+    /home/ywatanabe/proj/entrance/torchPAC/scripts/summarize/RUNNING/2024Y-04M-23D-14h45m33s_HlDi/
+END_TIME: 2024-04-23 14:45:34.627967
+SPENT_TIME: 00:00:01
