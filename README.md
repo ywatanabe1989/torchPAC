@@ -1,7 +1,7 @@
 <!-- ---
 !-- title: README.md
 !-- author: ywatanabe
-!-- date: 2024-11-04 14:54:29
+!-- date: 2024-11-04 14:55:57
 !-- --- -->
 
 
@@ -15,11 +15,10 @@ See [installation guide](./docs/installation.md)
 
 ## Experiment
 ### Parameter Space
-./config/PARAMETER_SPACES.yaml
+[`./config/PARAMETER_SPACES.yaml`](./config/PARAMETER_SPACES.yaml)
 
-### Run Experiments
+### Run Experiments ([`./scripts/run_experiment.sh`](./scripts/run_experiment.sh))
 ```bash
-sudo nvidia-smi -pm 1
 ss torch_PAC_run_experiment 
 ./scripts/run_experiment.sh
 ```
