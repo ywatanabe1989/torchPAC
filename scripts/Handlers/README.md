@@ -1,14 +1,15 @@
 <!-- ---
 !-- title: ./torchPAC/scripts/Handlers/README.md
 !-- author: ywatanabe
-!-- date: 2024-11-04 22:10:46
+!-- date: 2024-11-04 22:11:53
 !-- --- -->
 
 
 ## Variables which impacts on calculation
 - Package-inspecific variables
+
 | Variable      | Tensorpac    | MNGS (torchPAC) | Impact                                               | Tensorpac Ref                                                   | MNGS Ref                                             |
-|---------------|--------------|-----------------|------------------------------------------------------|-----------------------------------------------------------------|------------------------------------------------------|
+|---------------+--------------+-----------------+------------------------------------------------------+-----------------------------------------------------------------+------------------------------------------------------|
 | `batch_size`  | ✓            | ✓               | # of Signal Samples                                  | [prepare_signal.py#L18-L21](../utils/prepare_signal.py#L18-L21) | [MNGSHandler.py#L62](MNGSHandler.py#L62)             |
 | `n_chs`       | ✓            | ✓               | # of Signal Channels                                 | [prepare_signal.py#L18-L21](../utils/prepare_signal.py#L18-L21) | [MNGSHandler.py#L62](MNGSHandler.py#L62)             |
 | `n_segments`  | ✓            | ✓               | # of Signal segments                                 | [prepare_signal.py#L18-L21](../utils/prepare_signal.py#L18-L21) | [MNGSHandler.py#L62](MNGSHandler.py#L62)             |
@@ -20,16 +21,20 @@
 | `fp16`        | ✓            | ✓               | Use float16 precision (default float32)              | [prepare_signal.py#L18-L21](../utils/prepare_signal.py#L18-L21) | [MNGSHandler.py#L62](MNGSHandler.py#L62)             |
 | `chunk_size`  | ✓ (✘ ^1, ^2) | ✓               | # of Signal Samples calculated at one itereation     | [TensorpacHandler.py#L118-L121](TensorpacHandler.py#L118-L121)  | [MNGSHandler.py#L143-L169](MNGSHandler.py#L143-L169) |
 
+
 - mngs-specific variables
+
 | Variable    | Tensorpac | MNGS (torchPAC) | Impact                                            | Tensorpac Ref | MNGS Ref                                       |
-|-------------|-----------|-----------------|---------------------------------------------------|---------------|------------------------------------------------|
+|-------------+-----------+-----------------+---------------------------------------------------+---------------+------------------------------------------------|
 | `no_grad`   | ✓         | ✘               | Whether to calculate gradiation (for AI training) | -             | [MNGSHandler.py#L48](MNGSHandler.py#L48) fixme |
 | `in_place`  | ✓         | ✘               | Whether to calculate in the in_place manner       | -             | [MNGSHandler.py#L48](MNGSHandler.py#L96)       |
 | `trainable` | ✓         | ✘               | Whether to use trainable model                    | -             | [MNGSHandler.py#L49](MNGSHandler.py#L97)       |
 | `device`    | ✓         | ✘               | Hardware selection (CPU or GPU)                   | -             | [MNGSHandler.py#L50](MNGSHandler.py#L98)       |
 
+
 - tensorpac-specific variables
-| Variable   | Tensorpac | MNGS (torchPAC) | Impact              | Tensorpac Ref                                      | MNGS Ref |
+
+| Variable      | Tensorpac | MNGS (torchPAC) | Impact              | Tensorpac Ref                                      | MNGS Ref |
 |---------------|-----------|-----------------|---------------------|----------------------------------------------------|----------|
 | `use_threads` | ✘         | ✓               | CPU parallelization | [TensorpacHandler.py#L66](TensorpacHandler.py#L66) | -        |
 
