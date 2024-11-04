@@ -1,128 +1,93 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-10-10 17:51:54 (ywatanabe)"
-# Author: Yusuke Watanabe (ywata1989@gmail.com)
-# ./scripts/_generate_param_spaces.py
+# Time-stamp: "2024-11-04 23:49:47 (ywatanabe)"
+# File: ./torchPAC/scripts/utils/_generate_param_spaces.py
 
 """
 Functionality:
-    * Generates and saves parameter spaces for the torchPAC project.
+    * Generates parameter space based on the base space, with only one variable has varied values for experiments
 Input:
-    * None (uses predefined parameter grids)
+    * parameter name to vary
 Output:
-    * Saved YAML file with parameter spaces (./config/PARAM_SPACES.yaml)
+    * List of parameter configurations
 Prerequisites:
     * mngs package
     * matplotlib
 """
 
-# Imports
 import sys
+from typing import Any, Dict, List
 
 import matplotlib.pyplot as plt
 import mngs
+import pandas as pd
 
 
-# Functions
+def define_parameter_space(param_name: str) -> List[Dict[str, Any]]:
+    """Generates parameter configurations by varying one parameter while keeping others at baseline.
+
+    Parameters
+    ----------
+    param_name : str
+        Name of the parameter to vary
+
+    Returns
+    -------
+    List[Dict[str, Any]]
+        List of parameter configurations
+    """
+
+    PARAMS_BASELINE = CONFIG.PARAMS.BASELINE
+    PARAMS_VARIATIONS = CONFIG.PARAMS.VARIATIONS
+
+    if param_name not in PARAMS_BASELINE:
+        raise ValueError(
+            f"Parameter {param_name} not found in baseline configuration"
+        )
+
+    configs = []
+    for value in PARAMS_VARIATIONS[param_name]:
+        config = PARAMS_BASELINE.copy()
+        config[param_name] = value
+        configs.append(config)
+
+    return configs
+
 def main():
-    # Base parameters
-    PARAMS_GRID_BASE = {
-        # Inputs shapes
-        "batch_size": [1],
-        "n_chs": [1],
-        "n_segments": [1],
-        "t_sec": [1],
-        # Signal properties
-        "fs": [512],
-        "pha_n_bands": [10],
-        "amp_n_bands": [10],
-        # Calculation options
-        "n_perm": [None],
-        "chunk_size": [1],
-        "fp16": [True],
-        "no_grad": [True],
-        "in_place": [True],
-        "trainable": [False],
-        "device": ["cuda"],
-        "use_threads": [False],
-        "n_calc": [1],
-        # Model switch
-        "package": ["tensorpac", "mngs"],
-    }
+    PARAMS_BASELINE = CONFIG.PARAMS.BASELINE
+    PARAMS_VARIATIONS = CONFIG.PARAMS.VARIATIONS
+    PACKAGES = CONFIG.PACKAGES
 
-    # Ideal Parameters
-    PARAMS_GRID_IDEAL = {
-        # Inputs shapes
-        "batch_size": [8, 16, 32, 64],
-        "n_chs": [8, 16, 32, 64],
-        "n_segments": [1, 2, 4, 8, 16],
-        "t_sec": [1, 2, 4, 8],
-        # Signal properties
-        "fs": [512, 1024],
-        "pha_n_bands": [10, 30, 50, 70, 100],
-        "amp_n_bands": [10, 30, 50, 70, 100],
-        # Calculation options
-        "n_perm": [1, 2, 4, 8, 16],
-        "chunk_size": [1, 2, 4, 8],
-        "fp16": [True, False],
-        "in_place": [False, True],
-        "trainable": [False, True],
-        "device": ["cpu", "cuda"],
-        "use_threads": [False, True],
-        "no_grad": [True, False],
-        "n_calc": [1, 2, 4, 8],
-        # Model switch
-        "package": ["tensorpac", "mngs"],
-    }
+    print("\nParameter Space Configurations:")
+    print("-" * 80)
 
-    # Construct experimental parameter spaces
-    PARAMS_GRID = PARAMS_GRID_BASE
-    UPDATE_KEYS = [
-        "batch_size",
-        "n_chs",
-        "n_segments",
-        "t_sec",
-        "fs",
-        "pha_n_bands",
-        "amp_n_bands",
-        "chunk_size",
-        "fp16",
-        "in_place",
-        "trainable",
-        "device",
-        "use_threads",
-        "no_grad",
-        "n_calc",
-    ]
-    UPDATE_DICT = {k: PARAMS_GRID_IDEAL[k] for k in UPDATE_KEYS}
-    PARAMS_GRID.update(UPDATE_DICT)
+    rows = []
+    for param in PARAMS_VARIATIONS.keys():
+        configs = define_parameter_space(param)
+        rows.append({
+            'Parameter': param,
+            'N Configs': len(configs),
+            'Values': PARAMS_VARIATIONS[param],
+            'Baseline': PARAMS_BASELINE[param],
+        })
 
-    # Print
-    print(PARAMS_GRID)
-    print(f"{mngs.ml.utils.grid_search.count_grids(PARAMS_GRID):,}")
+    df = pd.DataFrame(rows)
+    df = df.sort_values('Parameter')
 
-    # Saves the defined grid space
-    mngs.io.save(PARAMS_GRID, "./config/PARAM_SPACES.yaml")
+    # Format Values column to be more readable
+    df['Values'] = df['Values'].apply(lambda x: str(x).replace('[', '').replace(']', ''))
 
-    # Loads the saved yaml for confirmation
-    params_grid = mngs.io.load("./config/PARAM_SPACES.yaml")
-    assert params_grid == PARAMS_GRID
-
+    print(df.to_string(index=False))
+    print("-" * 80)
 
 if __name__ == "__main__":
-    # Start
     CONFIG, sys.stdout, sys.stderr, plt, CC = mngs.gen.start(
         sys, plt, verbose=False
     )
 
+    define_parameter_space("fs")
     main()
 
-    # Close
     mngs.gen.close(CONFIG, verbose=False, notify=False)
 
-
 # EOF
-
-"""
-/home/ywatanabe/proj/entrance/torchPAC/scripts/generate_param_spaces.py
-"""
