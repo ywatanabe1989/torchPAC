@@ -1,8 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-10-18 15:32:36 (ywatanabe)"
-# Author: Yusuke Watanabe (ywata1989@gmail.com)
-# ./scripts/main.py
+# Time-stamp: "2024-11-04 17:03:27 (ywatanabe)"
+# File: ./torchPAC/scripts/main.py
 
 """
 Functionality:
@@ -16,32 +15,42 @@ Prerequisites:
     * Custom Handlers (MNGSHandler, TensorpacHandler)
 """
 
-import sys
-import mngs
-import torch
-import pandas as pd
-from utils.prepare_signal import prepare_signal
-from utils.init_model import init_model
 import multiprocessing
+from typing import Any, Dict
 
-def main():
-    PARAM_SPACES = mngs.io.load("./config/PARAM_SPACES.yaml")
-    for params in mngs.gen.yield_grids(PARAM_SPACES, random=True):
-        run_condition(params)
-        torch.cuda.empty_cache()
+import mngs
 
+from scripts.utils.init_model import init_model
+from scripts.utils.perform_pac_calculation import perform_pac_calculation
+from scripts.utils.prepare_signal import prepare_signal
+from scripts.utils.save_results import save_results
 
-def run_condition(params: dict) -> None:
-    import matplotlib.pyplot as plt
+CONFIG = mngs.io.load_configs()
+
+def run_condition(params: Dict[str, Any]) -> None:
+    """Executes PAC calculation for given parameters.
+
+    Parameters
+    ----------
+    params : Dict[str, Any]
+        Dictionary containing calculation parameters
+
+    Returns
+    -------
+    None
+    """
     import sys
+
     import matplotlib.pyplot as plt
 
     ts = mngs.gen.TimeStamper()
     params["ts"] = ts
 
-    CONFIG, sys.stdout, sys.stderr, plt, CC = mngs.gen.start(sys, plt, verbose=False, agg=True)
+    CONFIG, sys.stdout, sys.stderr, plt, CC = mngs.gen.start(
+        sys, plt, verbose=False, agg=True
+    )
 
-    mngs.gen.print_block(params, c="yellow")
+    mngs.str.printc(params, c="yellow")
 
     params["seq_len"] = int(params["t_sec"] * params["fs"])
     model = init_model(params)
@@ -54,36 +63,71 @@ def run_condition(params: dict) -> None:
     save_results(model, params, CONFIG)
 
     mngs.gen.close(CONFIG, verbose=False, notify=False)
+
     del model
 
-def perform_pac_calculation(model, signal, params):
     try:
-        for _ in range(params["n_calc"]):
-            model.ts(model.calc_start_str)
-            if params["no_grad"]:
-                with torch.no_grad():
-                    model.calc_pac(signal)
-            else:
-                model.calc_pac(signal)
-            model.ts(model.calc_end_str)
-    except Exception as exception:
-        print(f"Error in PAC calculation: {exception}")
-
-def save_results(model, params, CONFIG):
-    mngs.gen.print_block(
-        f"{params['package']}\n"
-        f"{model.stats['calc_time_mean_sec'].iloc[0]} +/- {model.stats['calc_time_std_sec'].iloc[0]} sec",
-        c="green" if params["package"] == "mngs" else "magenta",
-    )
-    mngs.io.save(model.stats, CONFIG["SDIR"] + "stats.csv")
-
-    params_copy = params.copy()
-    del params_copy["ts"]
-    mngs.io.save(pd.DataFrame(pd.Series(params_copy)).T, CONFIG["SDIR"] + "params.csv")
+        sys.stdout.close()
+        sys.stderr.close()
+    except Exception as e:
+        print(e)
 
 
-if __name__ == "__main__":
-    multiprocessing.set_start_method('spawn')
-    main()
+
+
+def main() -> None:
+    """Main function to iterate through parameter spaces and run PAC calculations."""
+
+    # mngs.resource.log_processor_usages(CONFIG.PATH.PROCESSOR_USAGE, background=True)
+
+    param_space = mngs.io.load("./config/PARAM_SPACES.yaml")
+    if CONFIG.IS_DEBUG:
+        param_space = {k.replace("debug_", ""):v for k,v in param_space.items() if "debug_" in k.lower()}
+    else:
+        param_space = {k:v for k,v in param_space.items() if "debug_" not in k.lower()}
+
+    for params in mngs.utils.yield_grids(
+        param_space, random=True
+    ):
+        mngs.str.printc(params)
+        run_condition(params)
+        # torch.cuda.empty_cache()
+
+    return 0
+
+if __name__ == '__main__':
+    # -----------------------------------
+    # Initiatialization of mngs format
+    # -----------------------------------
+    # import sys
+
+    # import matplotlib.pyplot as plt
+
+    # # Configurations
+    # CONFIG, sys.stdout, sys.stderr, plt, CC = mngs.gen.start(
+    #     sys,
+    #     plt,
+    #     verbose=False,
+    #     agg=True,
+    #     # sdir_suffix="",
+    # )
+    # -----------------------------------
+    # Main
+    # -----------------------------------
+
+    # multiprocessing.set_start_method("spawn")
+    exit_status = main()
+    # exit_status = main()
+
+    # -----------------------------------
+    # Cleanup mngs format
+    # -----------------------------------
+    # mngs.gen.close(
+    #     CONFIG,
+    #     verbose=False,
+    #     notify=False,
+    #     message="",
+    #     exit_status=exit_status,
+    # )
 
 # EOF

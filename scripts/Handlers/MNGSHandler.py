@@ -12,7 +12,7 @@ import math
 
 import mngs
 import torch
-# from mngs.general import timeout
+# from mngs.decorators import timeout
 from scripts.Handlers import BaseHandler
 
 # TIMEOUT_SEC = int(10 * 60)

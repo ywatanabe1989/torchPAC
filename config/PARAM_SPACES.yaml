@@ -1,72 +1,138 @@
 batch_size:
-    - 8
-    # - 16
-    # - 32
-    # - 64
-n_chs:
-    - 8
-    # - 16
-    # - 32
-    # - 64
-n_segments:
-    - 1
-    # - 2
-    # - 4
-    # - 8
-    # - 16
-t_sec:
-    - 1
-    # - 2
-    # - 4
-    # - 8
-fs:
-    - 512
-    # - 1024
-pha_n_bands:
-    - 10
-    # - 30
-    # - 50
-    # - 70
-    # - 100
-amp_n_bands:
-    - 10
-    # - 30
-    # - 50
-    # - 70
-    # - 100
-n_perm:
-    # - 1
     - 2
     - 4
+    - 8
+    - 16
+    - 32
+    - 64
+debug_batch_size:
+    - 2
+    - 4
+n_chs:
+    - 2
+    - 4
+    - 8
+    - 16
+    - 32
+    - 64
+debug_n_chs:
+    - 2
+    - 4
+n_segments:
+    - 1
+    - 2
+    - 4
+    - 8
+    - 16
+debug_n_segments:
+    - 1
+    - 2
+
+t_sec:
+    - 1
+    - 2
+    - 4
+    - 8
+debug_t_sec:
+    - 1
+    - 2
+fs:
+  - 512
+  - 1024
+debug_fs:
+  - 512
+  - 1024
+
+pha_n_bands:
+    - 10
+    - 30
+    - 50
+    - 70
+    - 100
+debug_pha_n_bands:
+    - 10
+    - 30
+    
+amp_n_bands:
+    - 10
+    - 30
+    - 50
+    - 70
+    - 100
+debug_amp_n_bands:
+    - 10
+    - 30
+    
+n_perm:
+    - 1
+    - 2
+    - 4
+debug_n_perm:
+    - 1
+    - 2
+    
 chunk_size:
     - 1
-    # - 2
-    # - 4
-    # - 8
+    - 2
+    - 4
+    - 8
+debug_chunk_size:
+    - 1
+    - 2
+    
 fp16:
     - true
-    # - false
+    - false
+debug_fp16:
+    - true
+    - false
+
 no_grad:
     - true
-    # - false
-in_place:
     - false
-    # - true
-trainable:
-    - false
-    # - true
-device:
-    # - cpu
-    - cuda
-use_threads:
-    # - false
+debug_no_grad:
     - true
+    - false
+    
+in_place:
+    - true
+    - false    
+debug_in_place:
+    - true
+    - false
+
+trainable:
+    - true
+    - false    
+debug_trainable:
+    - true  
+    - false
+
+device:
+    - cpu
+    - cuda
+debug_device:
+    - cpu
+
+use_threads:
+    - true  
+    - false
+debug_use_threads:
+    - true
+    - false
+
 n_calc:
-    # - 1
-    # - 2
-    # - 4
+    - 2
+    - 4
     - 8
+debug_n_calc:
+    - 2
+    - 4
+
 package:
+    - tensorpac
+    - mngs
+debug_package:
     - tensorpac
     - mngs
 

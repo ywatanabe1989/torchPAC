@@ -23,6 +23,7 @@ res
 [DEBUG]*
 singularity
 work_singularity
+**2024Y**
 
 # Debug related
 *.old
