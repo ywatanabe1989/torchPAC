@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-11-05 09:22:05 (ywatanabe)"
+# Time-stamp: "2024-11-05 09:46:10 (ywatanabe)"
 # File: ./torchPAC/scripts/main.py
 
 """
@@ -75,21 +75,42 @@ def run_condition(
     del model
 
 
+# def main(CONFIG) -> None:
+#     """Main function to iterate through parameter spaces and run PAC calculations."""
+
+#     PARAM_NAMES = CONFIG.PARAMS.VARIATIONS.keys()
+#     condition_count = 0
+#     for param_name in PARAM_NAMES:
+#         params_list = define_parameter_space(param_name)
+#         for params in params_list:
+#             for package in CONFIG.PACKAGES:
+#                 try:
+#                     params["package"] = package
+#                     run_condition(CONFIG, params, condition_count)
+#                     condition_count += 1
+#                 except Exception as e:
+#                     print(e)
+
+#     mngs.sh(f"cp ./tmp/processor_usages.csv {COFIG.SDIR}")
+#     return 0
+
 def main(CONFIG) -> None:
     """Main function to iterate through parameter spaces and run PAC calculations."""
 
-    PARAM_NAMES = CONFIG.PARAMS.VARIATIONS.keys()
-    condition_count = 0
-    for param_name in PARAM_NAMES:
-        params_list = define_parameter_space(param_name)
-        for params in params_list:
-            for package in CONFIG.PACKAGES:
-                try:
-                    params["package"] = package
-                    run_condition(CONFIG, params, condition_count)
-                    condition_count += 1
-                except Exception as e:
-                    print(e)
+    PARAMS_SPACE = CONFIG.PARAMS.ALL.keys()
+    for prams in mngs.utils.yields_grid(PARAMS_SPACE):
+        run_condition(CONFIG, params, condition_count)
+    # condition_count = 0
+    # for param_name in PARAM_NAMES:
+    #     params_list = define_parameter_space(param_name)
+    #     for params in params_list:
+    #         for package in CONFIG.PACKAGES:
+    #             try:
+    #                 params["package"] = package
+    #                 run_condition(CONFIG, params, condition_count)
+    #                 condition_count += 1
+    #             except Exception as e:
+    #                 print(e)
 
     mngs.sh(f"cp ./tmp/processor_usages.csv {COFIG.SDIR}")
     return 0
