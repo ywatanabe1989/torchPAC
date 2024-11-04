@@ -1,7 +1,7 @@
 <!-- ---
 !-- title: ./torchPAC/scripts/Handlers/README.md
 !-- author: ywatanabe
-!-- date: 2024-11-04 22:11:53
+!-- date: 2024-11-04 22:12:22
 !-- --- -->
 
 
@@ -22,10 +22,11 @@
 | `chunk_size`  | ✓ (✘ ^1, ^2) | ✓               | # of Signal Samples calculated at one itereation     | [TensorpacHandler.py#L118-L121](TensorpacHandler.py#L118-L121)  | [MNGSHandler.py#L143-L169](MNGSHandler.py#L143-L169) |
 
 
+
 - mngs-specific variables
 
 | Variable    | Tensorpac | MNGS (torchPAC) | Impact                                            | Tensorpac Ref | MNGS Ref                                       |
-|-------------+-----------+-----------------+---------------------------------------------------+---------------+------------------------------------------------|
+|-------------|-----------|-----------------|---------------------------------------------------|---------------|------------------------------------------------|
 | `no_grad`   | ✓         | ✘               | Whether to calculate gradiation (for AI training) | -             | [MNGSHandler.py#L48](MNGSHandler.py#L48) fixme |
 | `in_place`  | ✓         | ✘               | Whether to calculate in the in_place manner       | -             | [MNGSHandler.py#L48](MNGSHandler.py#L96)       |
 | `trainable` | ✓         | ✘               | Whether to use trainable model                    | -             | [MNGSHandler.py#L49](MNGSHandler.py#L97)       |
