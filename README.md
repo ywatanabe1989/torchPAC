@@ -1,7 +1,7 @@
 <!-- ---
 !-- title: README.md
 !-- author: ywatanabe
-!-- date: 2024-11-04 14:56:36
+!-- date: 2024-11-04 14:57:05
 !-- --- -->
 
 
@@ -17,7 +17,7 @@ See [installation guide](./docs/installation.md)
 ### Parameter Space
 [`./config/PARAMETER_SPACES.yaml`](./config/PARAMETER_SPACES.yaml)
 
-### Run Experiments ([`./scripts/run_experiment.sh`](./scripts/run_experiment.sh))
+### Run Experiments
 ```bash
 screen -dmS torch_PAC_run_experiment ./scripts/run_experiment.sh
 ```
