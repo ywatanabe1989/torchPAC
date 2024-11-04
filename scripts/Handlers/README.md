@@ -1,7 +1,7 @@
 <!-- ---
 !-- title: ./torchPAC/scripts/Handlers/README.md
 !-- author: ywatanabe
-!-- date: 2024-11-04 22:12:55
+!-- date: 2024-11-04 22:13:45
 !-- --- -->
 
 
@@ -40,5 +40,5 @@
 | `use_threads` | ✘         | ✓               | CPU parallelization | [TensorpacHandler.py#L66](TensorpacHandler.py#L66) | -        |
 
 ## Batch_size vs. chunk_size
-<sup>1</sup> n_chunks = math.ceil(batch_size / chunk_size)
-<sup>2</sup> chunk size does not affect the use_threads mode for Tensorpac calculation
+- <sup>1</sup> n_chunks = math.ceil(batch_size / chunk_size)
+- <sup>2</sup> chunk size does not affect the use_threads mode for Tensorpac calculation
