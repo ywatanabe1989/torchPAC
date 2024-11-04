@@ -1,7 +1,7 @@
 <!-- ---
 !-- title: ./torchPAC/scripts/Handlers/README.md
 !-- author: ywatanabe
-!-- date: 2024-11-04 22:12:22
+!-- date: 2024-11-04 22:12:55
 !-- --- -->
 
 
@@ -9,7 +9,7 @@
 - Package-inspecific variables
 
 | Variable      | Tensorpac    | MNGS (torchPAC) | Impact                                               | Tensorpac Ref                                                   | MNGS Ref                                             |
-|---------------+--------------+-----------------+------------------------------------------------------+-----------------------------------------------------------------+------------------------------------------------------|
+|---------------|--------------|-----------------|------------------------------------------------------|-----------------------------------------------------------------|------------------------------------------------------|
 | `batch_size`  | ✓            | ✓               | # of Signal Samples                                  | [prepare_signal.py#L18-L21](../utils/prepare_signal.py#L18-L21) | [MNGSHandler.py#L62](MNGSHandler.py#L62)             |
 | `n_chs`       | ✓            | ✓               | # of Signal Channels                                 | [prepare_signal.py#L18-L21](../utils/prepare_signal.py#L18-L21) | [MNGSHandler.py#L62](MNGSHandler.py#L62)             |
 | `n_segments`  | ✓            | ✓               | # of Signal segments                                 | [prepare_signal.py#L18-L21](../utils/prepare_signal.py#L18-L21) | [MNGSHandler.py#L62](MNGSHandler.py#L62)             |
