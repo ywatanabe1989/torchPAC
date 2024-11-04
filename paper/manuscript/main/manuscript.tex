@@ -197,7 +197,7 @@
 
 %% \end{highlights}
 \title{
-GPU-accerelated implementation of phase-amplitude coupling
+    GPU-accerelated implementation of phase-amplitude coupling
 }
 \author[1,2]{Yusuke Watanabe\corref{cor1}}
 \author[1,5]{Takufumi Yanagisawa}
@@ -212,11 +212,15 @@ GPU-accerelated implementation of phase-amplitude coupling
 %\begin{graphicalabstract}
 %\includegraphics{grabs}
 %\end{graphicalabstract}
+%% -*- mode: latex -*-
+%% Time-stamp: "2024-11-04 14:01:07 (ywatanabe)"
+%% File: ./torchPAC/paper/manuscript/src/abstract.tex
+
 \begin{abstract}
   \pdfbookmark[1]{Abstract}{abstract}
-Abstract here.
-\end{abstract}
+Signal processing methods underlie the analysis of time-varying data across scientific fields, from physics to neuroscience. Phase-amplitude coupling (PAC), which quantifies interactions between frequency components in neural oscillations, serves as a fundamental biomarker for pathological brain activity and information processing in the brain. While PAC analysis has provided crucial insights into neural computation and communication, its computational complexity has historically limited applications to large-scale datasets that are increasingly common in modern neuroscience. Here we present TorchPAC, a GPU-accelerated framework that enables rapid PAC calculation through parallel processing and optimized algorithms. Our implementation achieved a 100-fold speedup compared to conventional CPU-based methods while maintaining computational accuracy, enabling real-time PAC calculation and successfully processing terabyte-scale neural recordings from multiple brain regions. This improvement in processing speed enabled comprehensive cross-frequency coupling analyses across unprecedented scales of neural data, revealing previously undetectable patterns of brain rhythmic interactions. Our open-source framework represents a significant advancement for the neuroscience community, facilitating investigation of neural dynamics in big data applications and potentially accelerating discoveries in basic and clinical neuroscience research.
 
+\end{abstract}
 % \pdfbookmark[1]{Keywords}{keywords}                
 \begin{keyword}
 phase-amplitude coupling \sep gpu \sep parallel computing
@@ -237,8 +241,13 @@ phase-amplitude coupling \sep gpu \sep parallel computing
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% INTRODUCTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% -*- mode: latex -*-
+%% Time-stamp: "2024-11-04 13:53:52 (ywatanabe)"
+%% File: ./torchPAC/paper/manuscript/src/introduction.tex
+
 \section{Introduction}
-Introduction here.
+Introduction here
+
 \label{sec:introduction}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
