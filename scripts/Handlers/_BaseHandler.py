@@ -1,11 +1,11 @@
-#!./env/bin/python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 12:32:55"
+# Time-stamp: "2024-10-18 01:50:17 (ywatanabe)"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 
 """
-This script defines BaseHandler.
+This script defines BaseHandler for phase-amplitude coupling calculations.
 """
 
 # Imports
@@ -19,7 +19,7 @@ import numpy as np
 import pandas as pd
 
 
-# Functions
+# Functions & Classes
 @dataclass
 class BaseHandler(ABC):
     # Signal properties
@@ -94,25 +94,45 @@ class BaseHandler(ABC):
     # calc_start_str = "PAC Calculation Starts"
     # calc_end_str = "PAC Calculation Ends"
 
+    # @abstractmethod
+    # def __init__(
+    #     self,
+    #     seq_len,
+    #     fs,
+    #     pha_n_bands,
+    #     pha_min_hz,
+    #     pha_max_hz,
+    #     amp_n_bands,
+    #     amp_min_hz,
+    #     amp_max_hz,
+    #     n_perm,
+    #     chunk_size,
+    #     fp16,
+    #     in_place,
+    #     trainable,
+    #     device,
+    #     use_threads,
+    #     ts,
+    # ):
     @abstractmethod
     def __init__(
         self,
-        seq_len,
-        fs,
-        pha_n_bands,
-        pha_min_hz,
-        pha_max_hz,
-        amp_n_bands,
-        amp_min_hz,
-        amp_max_hz,
-        n_perm,
-        chunk_size,
-        fp16,
-        in_place,
-        trainable,
-        device,
-        use_threads,
-        ts,
+        seq_len: int,
+        fs: float,
+        pha_n_bands: Union[int, float],
+        pha_min_hz: Union[int, float],
+        pha_max_hz: Union[int, float],
+        amp_n_bands: Union[int, float],
+        amp_min_hz: Union[int, float],
+        amp_max_hz: Union[int, float],
+        n_perm: int,
+        chunk_size: int,
+        fp16: bool,
+        in_place: bool,
+        trainable: bool,
+        device: str,
+        use_threads: bool,
+        ts: mngs.gen.TimeStamper,
     ):
 
         # Signal properties
@@ -167,40 +187,85 @@ class BaseHandler(ABC):
     def freqs_pha(self):
         pass
 
+    # @property
+    # def stats(
+    #     self,
+    # ):
+    #     # Initialization metrics
+    #     # indices
+    #     indi_init_start = np.where(
+    #         self.ts.record["comment"] == self.init_start_str
+    #     )[0]
+    #     indi_init_end = np.where(
+    #         self.ts.record["comment"] == self.init_end_str
+    #     )[0]
+    #     # time difference
+    #     init_start_times = np.array(
+    #         self.ts.record.loc[indi_init_start].timestamp
+    #     )
+    #     init_end_times = np.array(self.ts.record.loc[indi_init_end].timestamp)
+    #     init_delta_times = init_end_times - init_start_times
+    #     init_delta_times_mm = init_delta_times.mean()
+    #     init_delta_times_ss = init_delta_times.std()
+    #     init_delta_times_nn = len(init_delta_times)
+
+    #     # Calculation metrics
+    #     # indices
+    #     indi_calc_start = np.where(
+    #         self.ts.record["comment"] == self.calc_start_str
+    #     )[0]
+    #     indi_calc_end = np.where(
+    #         self.ts.record["comment"] == self.calc_end_str
+    #     )[0]
+    #     # time difference
+    #     calc_start_times = np.array(
+    #         self.ts.record.loc[indi_calc_start].timestamp
+    #     )
+    #     calc_end_times = np.array(self.ts.record.loc[indi_calc_end].timestamp)
+    #     calc_delta_times = calc_end_times - calc_start_times
+    #     calc_delta_times_mm = calc_delta_times.mean()
+    #     calc_delta_times_ss = calc_delta_times.std()
+    #     calc_delta_times_nn = len(calc_delta_times)
+
+    #     dic = {
+    #         "time": get_middle_time(calc_start_times[0], calc_end_times[-1]),
+    #         # Initialization metrics
+    #         "init_time_mean_sec": init_delta_times_mm,
+    #         "init_time_std_sec": init_delta_times_ss,
+    #         "init_time_nn": init_delta_times_nn,
+    #         # Calculation metrics
+    #         "calc_time_mean_sec": calc_delta_times_mm,
+    #         "calc_time_std_sec": calc_delta_times_ss,
+    #         "calc_time_nn": calc_delta_times_nn,
+    #         # Shapes
+    #         # "input_shape": [self.input_shape],
+    #         # "output_shape": [self.output_shape],
+    #         # "batch_size": self.input_shape[0],
+    #         # "n_chs": self.input_shape[1],
+    #         # # The calculated PAC
+    #         # "calculated_pac": [self.pac],
+    #     }
+
+    #     df = pd.DataFrame(
+    #         data=dic,
+    #         index=[str(self)],
+    #     ).round(3)
+
+    #     return df
     @property
-    def stats(
-        self,
-    ):
-        # Initialization metrics
-        # indices
-        indi_init_start = np.where(
-            self.ts.record["comment"] == self.init_start_str
-        )[0]
-        indi_init_end = np.where(
-            self.ts.record["comment"] == self.init_end_str
-        )[0]
-        # time difference
-        init_start_times = np.array(
-            self.ts.record.loc[indi_init_start].timestamp
-        )
+    def stats(self):
+        indi_init_start = np.where(self.ts.record["comment"] == self.init_start_str)[0]
+        indi_init_end = np.where(self.ts.record["comment"] == self.init_end_str)[0]
+        init_start_times = np.array(self.ts.record.loc[indi_init_start].timestamp)
         init_end_times = np.array(self.ts.record.loc[indi_init_end].timestamp)
         init_delta_times = init_end_times - init_start_times
         init_delta_times_mm = init_delta_times.mean()
         init_delta_times_ss = init_delta_times.std()
         init_delta_times_nn = len(init_delta_times)
 
-        # Calculation metrics
-        # indices
-        indi_calc_start = np.where(
-            self.ts.record["comment"] == self.calc_start_str
-        )[0]
-        indi_calc_end = np.where(
-            self.ts.record["comment"] == self.calc_end_str
-        )[0]
-        # time difference
-        calc_start_times = np.array(
-            self.ts.record.loc[indi_calc_start].timestamp
-        )
+        indi_calc_start = np.where(self.ts.record["comment"] == self.calc_start_str)[0]
+        indi_calc_end = np.where(self.ts.record["comment"] == self.calc_end_str)[0]
+        calc_start_times = np.array(self.ts.record.loc[indi_calc_start].timestamp)
         calc_end_times = np.array(self.ts.record.loc[indi_calc_end].timestamp)
         calc_delta_times = calc_end_times - calc_start_times
         calc_delta_times_mm = calc_delta_times.mean()
@@ -209,30 +274,34 @@ class BaseHandler(ABC):
 
         dic = {
             "time": get_middle_time(calc_start_times[0], calc_end_times[-1]),
-            # Initialization metrics
             "init_time_mean_sec": init_delta_times_mm,
             "init_time_std_sec": init_delta_times_ss,
             "init_time_nn": init_delta_times_nn,
-            # Calculation metrics
             "calc_time_mean_sec": calc_delta_times_mm,
             "calc_time_std_sec": calc_delta_times_ss,
             "calc_time_nn": calc_delta_times_nn,
-            # Shapes
-            # "input_shape": [self.input_shape],
-            # "output_shape": [self.output_shape],
-            # "batch_size": self.input_shape[0],
-            # "n_chs": self.input_shape[1],
-            # # The calculated PAC
-            # "calculated_pac": [self.pac],
         }
 
-        df = pd.DataFrame(
-            data=dic,
-            index=[str(self)],
-        ).round(3)
-
+        df = pd.DataFrame(data=dic, index=[str(self)]).round(3)
         return df
 
+
+# def get_middle_time(dt1: datetime, dt2: datetime) -> datetime:
+#     """
+#     Returns the middle time between two datetime objects.
+
+#     Parameters:
+#     - dt1, dt2: datetime.datetime objects.
+
+#     Returns:
+#     - datetime.datetime object representing the middle time between dt1 and dt2.
+#     """
+#     if dt1 > dt2:
+#         dt1, dt2 = dt2, dt1
+
+#     half_diff = (dt2 - dt1) / 2
+#     middle_time = dt1 + half_diff
+#     return datetime.fromtimestamp(middle_time.timestamp())
 
 def get_middle_time(dt1, dt2):
     """

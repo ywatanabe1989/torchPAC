@@ -1,52 +1,66 @@
-#!./env/bin/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-23 15:34:13"
-# Author: Yusuke Watanabe (ywata1989@gmail.com)
-
-
-"""
-This script does XYZ.
-"""
-
+# Time-stamp: "2024-11-04 11:22:37 (ywatanabe)"
+# File: ./torchPAC/scripts/record_processers.py
 
 """
-Imports
+Functionality:
+    * Records system processes at specified intervals.
+Input:
+    * Interval in seconds and reset flag.
+Output:
+    * Process records (output format not specified in the given code).
+Prerequisites:
+    * mngs package
+    * matplotlib
 """
+
+
+"""Imports"""
 import sys
 
 import matplotlib.pyplot as plt
 import mngs
 
-"""
-Config
-"""
-# CONFIG = mngs.gen.load_configs()
 
-
-"""
-Functions & Classes
-"""
-
-
+"""Functions & Classes"""
 def main(interval_s, reset):
-    mngs.res.rec_procs(
-        limit_min=60, interval_s=interval_s, reset=reset, verbose=False
+    """
+    Records system processes at specified intervals.
+
+    Parameters
+    ----------
+    interval_s : Union[int, float]
+        Interval in seconds between recordings.
+    reset : bool
+        Flag to reset previous recordings.
+
+    Returns
+    -------
+    None
+    """
+    mngs.resource.rec_procs(
+        limit_min=60 * 24, interval_s=interval_s, reset=reset, verbose=False
     )
 
 
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="")
+    parser = argparse.ArgumentParser(description="Record system processes at specified intervals.")
     parser.add_argument(
         "--interval_s",
         "-i",
         type=float,
         default=0.5,
-        help="Interval in seconds.",
+        help="Interval in seconds between recordings."
     )
     parser.add_argument(
-        "--reset", "-r", action="store_true", default=False, help="Reset flag."
+        "--reset",
+        "-r",
+        action="store_true",
+        default=False,
+        help="Reset flag to clear previous recordings."
     )
     args = parser.parse_args()
 
