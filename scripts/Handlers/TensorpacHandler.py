@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-11-04 21:09:45 (ywatanabe)"
+# Time-stamp: "2024-11-04 21:41:47 (ywatanabe)"
 # File: ./torchPAC/scripts/Handlers/TensorpacHandler.py
 
 """
@@ -27,6 +27,7 @@ from scripts.Handlers import BaseHandler
 
 TIMEOUT_SEC = int(10 * 60)
 
+
 class TensorpacHandler(BaseHandler):
     def __init__(
         self,
@@ -48,10 +49,22 @@ class TensorpacHandler(BaseHandler):
         ts: mngs.gen.TimeStamper,
     ):
         super().__init__(
-            seq_len, fs, pha_n_bands, pha_min_hz, pha_max_hz,
-            amp_n_bands, amp_min_hz, amp_max_hz, n_perm,
-            chunk_size, fp16, in_place, trainable,
-            device, use_threads, ts,
+            seq_len,
+            fs,
+            pha_n_bands,
+            pha_min_hz,
+            pha_max_hz,
+            amp_n_bands,
+            amp_min_hz,
+            amp_max_hz,
+            n_perm,
+            chunk_size,
+            fp16,
+            in_place,
+            trainable,
+            device,
+            use_threads,
+            ts,
         )
 
         del self.in_place, self.trainable
@@ -61,8 +74,11 @@ class TensorpacHandler(BaseHandler):
 
     def init_model(self) -> tensorpac.Pac:
         resolution_dict = {
-            10: "lres", 30: "mres", 50: "hres",
-            70: "demon", 100: "hulk"
+            10: "lres",
+            30: "mres",
+            50: "hres",
+            70: "demon",
+            100: "hulk",
         }
         model = tensorpac.Pac(
             f_pha=resolution_dict[self.pha_n_bands],
@@ -86,8 +102,11 @@ class TensorpacHandler(BaseHandler):
         np.ndarray
             Calculated PAC values
         """
-        return (self._calc_pac_unfair_using_threads(xx)
-                if self.use_threads else self._calc_pac_fair_chunk(xx))
+        return (
+            self._calc_pac_unfair_using_threads(xx)
+            if self.use_threads
+            else self._calc_pac_fair_chunk(xx)
+        )
 
     def _calc_pac(self, xs: np.ndarray) -> np.ndarray:
         pha = self.model.filter(self.fs, xs, ftype="phase", n_jobs=-1)
@@ -115,14 +134,24 @@ class TensorpacHandler(BaseHandler):
         xx = self.dim_handler.fit(xx, keepdims=[-1])
         n_chunks = math.ceil(len(xx) / self.chunk_size)
 
-        xpac = np.vstack([
-            self._calc_pac(xx[i_batch * self.chunk_size : (i_batch + 1) * self.chunk_size])
-            for i_batch in range(n_chunks)
-        ])
+        xpac = np.vstack(
+            [
+                self._calc_pac(
+                    xx[
+                        i_batch
+                        * self.chunk_size : (i_batch + 1)
+                        * self.chunk_size
+                    ]
+                )
+                for i_batch in range(n_chunks)
+            ]
+        )
 
         return self.dim_handler.unfit(xpac)
 
-    def _calc_pac_unfair_using_threads(self, xx: np.ndarray, n_jobs: int = -1) -> np.ndarray:
+    def _calc_pac_unfair_using_threads(
+        self, xx: np.ndarray, n_jobs: int = -1
+    ) -> np.ndarray:
         """
         Calculate PAC using thread-based processing.
 
@@ -164,6 +193,7 @@ class TensorpacHandler(BaseHandler):
 
     def __str__(self) -> str:
         return "Tensorpac"
+
 
 # #!/usr/bin/env python3
 # # -*- coding: utf-8 -*-
@@ -346,6 +376,6 @@ class TensorpacHandler(BaseHandler):
 #         return "Tensorpac"
 
 
-# 
+#
 
 # EOF

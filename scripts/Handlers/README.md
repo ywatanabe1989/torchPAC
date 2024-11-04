@@ -1,25 +1,30 @@
 <!-- ---
 !-- title: ./torchPAC/scripts/Handlers/README.md
 !-- author: ywatanabe
-!-- date: 2024-11-04 21:34:36
+!-- date: 2024-11-04 21:53:24
 !-- --- -->
 
 
-| Variable | Tensorpac | MNGS (torchPAC) | Impact | Tensorpac Ref | MNGS Ref |
-|----------|-----------|-----------------|---------|---------------|-----------|
-| `chunk_size` | ✓ | ✓ | Memory usage & speed | [TensorpacHandler.py#L118-L121](TensorpacHandler.py#L118-L121) | [MNGSHandler.py#L65-L76](MNGSHandler.py#L65-L76) |
-| `fp16` | ✓ | ✓ | Precision & memory | [TensorpacHandler.py#L40](TensorpacHandler.py#L40) | [MNGSHandler.py#L62](MNGSHandler.py#L62) |
-| `no_grad` | ✘ | ✓ | Training efficiency | - | [MNGSHandler.py#L48](MNGSHandler.py#L48) |
-| `in_place` | ✘ | ✓ | Memory optimization | - | [MNGSHandler.py#L48](MNGSHandler.py#L48) |
-| `trainable` | ✘ | ✓ | Filter adaptability | - | [MNGSHandler.py#L49](MNGSHandler.py#L49) |
-| `use_threads` | ✓ | ✘ | CPU parallelization | [TensorpacHandler.py#L119](TensorpacHandler.py#L119) | - |
-| `device` | ✘ | ✓ | Hardware selection | - | [MNGSHandler.py#L50](MNGSHandler.py#L50) |
-| `batch_size` | ✓ | ✓ | Processing throughput | [TensorpacHandler.py#L117](TensorpacHandler.py#L117) | [MNGSHandler.py#L61](MNGSHandler.py#L61) |
-| `n_chs` | ✓ | ✓ | Channel load | [TensorpacHandler.py#L117](TensorpacHandler.py#L117) | [MNGSHandler.py#L61](MNGSHandler.py#L61) |
-| `n_segments` | ✓ | ✓ | Time windows | [TensorpacHandler.py#L117](TensorpacHandler.py#L117) | [MNGSHandler.py#L61](MNGSHandler.py#L61) |
-| `fs` | ✓ | ✓ | Frequency resolution | [TensorpacHandler.py#L38](TensorpacHandler.py#L38) | [MNGSHandler.py#L42](MNGSHandler.py#L42) |
-| `pha/amp_n_bands` | ✓ | ✓ | Frequency bands | [TensorpacHandler.py#L39](TensorpacHandler.py#L39) | [MNGSHandler.py#L43-L46](MNGSHandler.py#L43-L46) |
-| `n_perm` | ✓ | ✓ | Statistics | [TensorpacHandler.py#L41](TensorpacHandler.py#L41) | [MNGSHandler.py#L47](MNGSHandler.py#L47) |
+| Variable      | Tensorpac | MNGS (torchPAC) | Impact                  n                         | Tensorpac Ref                                                  | MNGS Ref                                             |
+|---------------|-----------|-----------------|---------------------------------------------------|----------------------------------------------------------------|------------------------------------------------------|
+| `chunk_size`  | ✓         | ✓               | # of Signal Samples calculated at one itereation  | [TensorpacHandler.py#L118-L121](TensorpacHandler.py#L118-L121) | [MNGSHandler.py#L143-L169](MNGSHandler.py#L143-L169) |
+| `no_grad`     | ✘         | ✓               | Whether to calculate gradiation (for AI training) | -                                                              | [MNGSHandler.py#L48](MNGSHandler.py#L48) fixme       |
+| `in_place`    | ✘         | ✓               | Whether to calculate in the in_place manner       | -                                                              | [MNGSHandler.py#L48](MNGSHandler.py#L96)             |
+| `trainable`   | ✘         | ✓               | Whether to use trainable model                    | -                                                              | [MNGSHandler.py#L49](MNGSHandler.py#L97)             |
+| `use_threads` | ✓         | ✘               | CPU parallelization                               | [TensorpacHandler.py#L66](TensorpacHandler.py#L66)             | -                                                    |
+| `device`      | ✘         | ✓               | Hardware selection (CPU or GPU)                   | -                                                              | [MNGSHandler.py#L50](MNGSHandler.py#L98)             |
+
+| Variable       | Tensorpac | MNGS (torchPAC) | Impact                                               | Tensorpac Ref                                                   | MNGS Ref                                          |
+|----------------|-----------|-----------------|------------------------------------------------------|-----------------------------------------------------------------|---------------------------------------------------|
+| `batch_size`   | ✓         | ✓               | # of Signal Samples                                  | [prepare_signal.py#L18-L21](../utils/prepare_signal.py#L18-L21) | [MNGSHandler.py#L62](MNGSHandler.py#L62)          |
+| `n_chs`        | ✓         | ✓               | # of Signal Channels                                 | [prepare_signal.py#L18-L21](../utils/prepare_signal.py#L18-L21) | [MNGSHandler.py#L62](MNGSHandler.py#L62)          |
+| `n_segments`   | ✓         | ✓               | # of Signal segments                                 | [prepare_signal.py#L18-L21](../utils/prepare_signal.py#L18-L21) | [MNGSHandler.py#L62](MNGSHandler.py#L62)          |
+| `t_sec`        | ✓         | ✓               | Signal Length for Batch Samples [s]                  |                                                                 |                                                   |
+| `fs`           | ✓         | ✓               | Sampling frequency [1/Hz]                            | [prepare_signal.py#L18-L21](../utils/prepare_signal.py#L18-L21) | [MNGSHandler.py#L62](MNGSHandler.py#L62)          |
+| `pha_n_bands`  | ✓         | ✓               | # of Frequency bands for phase                       | [_BaseHandler.py#L106](_BaseHandler.py#L39)                     | [_BaseHandler.py#L43-L46](BaseHandler.py#L43-L46) |
+| `ampt_n_bands` | ✓         | ✓               | # of Frequency bands for amplitude                   | [_BaseHandler.py#L106](_BaseHandler.py#L39)                     | [_BaseHandler.py#L43-L46](BaseHandler.py#L43-L46) |
+| `n_perm`       | ✓         | ✓               | # of permutations to calculate z score of PAC values | [TensorpacHandler.py#L41](TensorpacHandler.py#L41)              | [MNGSHandler.py#L47](MNGSHandler.py#L47)          |
+| `fp16`         | ✓         | ✓               | Use float16 precision (default float32)              | [prepare_signal.py#L18-L21](../utils/prepare_signal.py#L18-L21) | [MNGSHandler.py#L62](MNGSHandler.py#L62)          |
 
 ✓: Impacts calculation
 ✘: No impact/Not applicable
