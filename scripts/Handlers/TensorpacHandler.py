@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-10-18 00:33:29 (ywatanabe)"
+# Time-stamp: "2024-10-18 15:20:11 (ywatanabe)"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 
@@ -15,8 +15,9 @@ import numpy as np
 import tensorpac
 from mngs.general import timeout
 from scripts.Handlers import BaseHandler
+import mngs
 
-TIMEOUT_SEC = int(10 * 60)
+# TIMEOUT_SEC = int(10 * 60)
 
 
 # Functions
@@ -122,7 +123,7 @@ class TensorpacHandler(BaseHandler):
     #         return self._calc_pac_unfair_using_threads(xx)
     #     else:
     #         return self._calc_pac_fair_chunk(xx)
-    @timeout(seconds=TIMEOUT_SEC, error_message=f"\nFunction call timed out after {TIMEOUT_SEC} seconds")
+    # @timeout(seconds=TIMEOUT_SEC, error_message=f"\nFunction call timed out after {TIMEOUT_SEC} seconds")
     def calc_pac(self, xx: np.ndarray) -> np.ndarray:
         return self._calc_pac_unfair_using_threads(xx) if self.use_threads else self._calc_pac_fair_chunk(xx)
 

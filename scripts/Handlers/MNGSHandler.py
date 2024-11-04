@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-10-18 00:26:43 (ywatanabe)"
+# Time-stamp: "2024-10-18 15:19:15 (ywatanabe)"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 """
@@ -12,10 +12,10 @@ import math
 
 import mngs
 import torch
-from mngs.general import timeout
+# from mngs.general import timeout
 from scripts.Handlers import BaseHandler
 
-TIMEOUT_SEC = int(10 * 60)
+# TIMEOUT_SEC = int(10 * 60)
 
 # Functions
 class MNGSHandler(BaseHandler):

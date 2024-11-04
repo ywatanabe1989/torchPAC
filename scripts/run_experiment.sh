@@ -1,7 +1,7 @@
 #!/bin/bash
-# experiment_runner.sh
-# Author: ywatanabe (ywatanabe@alumni.u-tokyo.ac.jp)
-# Date: $(date +"%Y-%m-%d-%H-%M")
+# Time-stamp: "2024-11-04 12:17:14 (ywatanabe)"
+# File: ./torchPAC/scripts/run_experiment.sh
+
 
 LOG_FILE="${0%.sh}.log"
 
@@ -20,21 +20,25 @@ kill_py() {
     ps aux | grep "$(whoami)" | grep 'python' | awk '{ print "kill", $2 }' | sh
 }
 
-run_experiment() {
-    # Executes the experiment workflow
-    #
-    # Usage:
-    # run_experiment
-
+initialize() {
     # Preparation
     kill_py
     rm -rf \
        ./scripts/main/FINISHED* \
        ./scripts/main/RUNNING/ \
        /tmp/mngs/processer_usages.csv 
+}
+
+run_experiment() {
+    # Executes the experiment workflow
+    #
+    # Usage:
+    # run_experiment
+
+    initialize
 
     # Start logging CPU / GPU usages
-    ./scripts/record_processers.py -i 0.33 -r &
+    ./scripts/log_processer_usages.py -i 0.33 -r &
 
     # PAC calculation with stats recording
     ./scripts/main.py &&

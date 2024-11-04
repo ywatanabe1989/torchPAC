@@ -1,9 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-10-10 17:55:43 (ywatanabe)"
-# Author: Yusuke Watanabe (ywata1989@gmail.com)
-# ./scripts/record_processers.py
-
+# Time-stamp: "2024-11-04 11:22:37 (ywatanabe)"
+# File: ./torchPAC/scripts/record_processers.py
 
 """
 Functionality:
@@ -23,11 +21,9 @@ import sys
 
 import matplotlib.pyplot as plt
 import mngs
-from mngs.general import timeout
 
 
 """Functions & Classes"""
-
 def main(interval_s, reset):
     """
     Records system processes at specified intervals.
@@ -43,7 +39,7 @@ def main(interval_s, reset):
     -------
     None
     """
-    mngs.res.rec_procs(
+    mngs.resource.rec_procs(
         limit_min=60 * 24, interval_s=interval_s, reset=reset, verbose=False
     )
 
