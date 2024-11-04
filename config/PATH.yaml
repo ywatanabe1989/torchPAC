@@ -1,4 +1,4 @@
 PATH:
-  PROC_USAGE:
-    "/tmp/mngs/processer_usages.csv "
-    
+  PROCESSOR_USAGE:
+    "./data/processer_usages.csv "
+

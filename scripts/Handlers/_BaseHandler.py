@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-10-18 00:24:14 (ywatanabe)"
+# Time-stamp: "2024-10-18 01:50:17 (ywatanabe)"
 # Author: Yusuke Watanabe (ywata1989@gmail.com)
 
 
@@ -286,24 +286,7 @@ class BaseHandler(ABC):
         return df
 
 
-def get_middle_time(dt1: datetime, dt2: datetime) -> datetime:
-    """
-    Returns the middle time between two datetime objects.
-
-    Parameters:
-    - dt1, dt2: datetime.datetime objects.
-
-    Returns:
-    - datetime.datetime object representing the middle time between dt1 and dt2.
-    """
-    if dt1 > dt2:
-        dt1, dt2 = dt2, dt1
-
-    half_diff = (dt2 - dt1) / 2
-    middle_time = dt1 + half_diff
-    return datetime.fromtimestamp(middle_time.timestamp())
-
-# def get_middle_time(dt1, dt2):
+# def get_middle_time(dt1: datetime, dt2: datetime) -> datetime:
 #     """
 #     Returns the middle time between two datetime objects.
 
@@ -313,16 +296,33 @@ def get_middle_time(dt1: datetime, dt2: datetime) -> datetime:
 #     Returns:
 #     - datetime.datetime object representing the middle time between dt1 and dt2.
 #     """
-#     # Ensure dt1 is the earlier and dt2 is the later datetime
 #     if dt1 > dt2:
 #         dt1, dt2 = dt2, dt1
 
-#     # Calculate the difference and divide by 2 to find the middle timedelta
 #     half_diff = (dt2 - dt1) / 2
-
-#     # Add the half difference to the first datetime to get the middle time
 #     middle_time = dt1 + half_diff
+#     return datetime.fromtimestamp(middle_time.timestamp())
 
-#     middle_time = datetime.fromtimestamp(middle_time)
+def get_middle_time(dt1, dt2):
+    """
+    Returns the middle time between two datetime objects.
 
-#     return middle_time
+    Parameters:
+    - dt1, dt2: datetime.datetime objects.
+
+    Returns:
+    - datetime.datetime object representing the middle time between dt1 and dt2.
+    """
+    # Ensure dt1 is the earlier and dt2 is the later datetime
+    if dt1 > dt2:
+        dt1, dt2 = dt2, dt1
+
+    # Calculate the difference and divide by 2 to find the middle timedelta
+    half_diff = (dt2 - dt1) / 2
+
+    # Add the half difference to the first datetime to get the middle time
+    middle_time = dt1 + half_diff
+
+    middle_time = datetime.fromtimestamp(middle_time)
+
+    return middle_time
