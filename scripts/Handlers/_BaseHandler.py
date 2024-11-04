@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-11-05 00:57:35 (ywatanabe)"
+# Time-stamp: "2024-11-05 03:24:48 (ywatanabe)"
 # File: ./torchPAC/scripts/Handlers/_BaseHandler.py
 
 # #!/usr/bin/env python3

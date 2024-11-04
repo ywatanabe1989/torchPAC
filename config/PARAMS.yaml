@@ -1,24 +1,24 @@
-# Time-stamp: "2024-11-05 00:01:01 (ywatanabe)"
+# Time-stamp: "2024-11-05 09:11:28 (ywatanabe)"
 # File: ./torchPAC/config/PARAMS.yaml
 
 PARAMS:
   BASELINE:
     # Signal Size Parameters
-    batch_size: 1
-    n_chs: 1
-    n_segments: 1
+    batch_size: 2
+    n_chs: 2
+    n_segments: 2
     t_sec: 1
-    fs: 512
+    fs: 256
 
     # PAC Resolution Parameters
     pha_n_bands: 10
     amp_n_bands: 10
 
     # Computation Parameters
-    chunk_size: 1
+    chunk_size: 2
     n_perm: null
     fp16: false
-    n_calc: 2
+    n_calc: 10
 
     # MNGS-specific Parameters
     no_grad: false
@@ -31,27 +31,26 @@ PARAMS:
 
   VARIATIONS:
     # Signal Size Parameters
-    batch_size: [1, 2, 4, 8, 16, 32, 64]
-    n_chs: [1, 2, 4, 8, 16, 32, 64]
-    n_segments: [1, 2, 4, 8, 16, 32]
-    t_sec: [1, 2, 4, 8]
+    batch_size: [4, 8, 16, 32, 64]
+    n_chs: [4, 8, 16, 32, 64]
+    n_segments: [4, 8, 16, 32]
+    t_sec: [2, 4, 8]
     fs: [512, 1024] # 64, 128, 256, 
 
     # PAC Resolution Parameters
-    pha_n_bands: [10, 30, 50, 70, 100]
-    amp_n_bands: [10, 30, 50, 70, 100]
+    pha_n_bands: [30, 50, 70, 100]
+    amp_n_bands: [30, 50, 70, 100]
 
     # Computation Parameters
-    chunk_size: [1, 2, 4, 8]
-    n_perm: [null, 1, 2, 4]
-    fp16: [false, true]
-    n_calc: [2, 4, 8, 16]
+    chunk_size: [4, 8]
+    n_perm: [1, 2, 4, 8]
+    fp16: [true]
 
     # MNGS-specific Parameters
-    no_grad: [false, true]
-    in_place: [false, true]
-    trainable: [false, true]
-    device: [cpu, cuda]
+    no_grad: [true]
+    in_place: [true]
+    trainable: [true]
+    device: [cuda]
 
     # Tensorpac-specific Parameters
-    use_threads: [false, true]
+    use_threads: [true]
