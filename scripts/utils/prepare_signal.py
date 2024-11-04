@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-11-04 21:43:42 (ywatanabe)"
+# Time-stamp: "2024-11-05 00:12:37 (ywatanabe)"
 # File: ./torchPAC/scripts/utils/prepare_signal.py
 
 from typing import Union
@@ -8,6 +8,7 @@ from typing import Union
 import mngs
 import numpy as np
 import torch
+
 
 def prepare_signal(params: dict) -> Union[np.ndarray, torch.Tensor]:
     try:

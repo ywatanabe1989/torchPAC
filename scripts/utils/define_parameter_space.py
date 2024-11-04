@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-11-04 23:49:47 (ywatanabe)"
-# File: ./torchPAC/scripts/utils/_generate_param_spaces.py
+# Time-stamp: "2024-11-04 23:53:56 (ywatanabe)"
+# File: ./torchPAC/scripts/utils/define_parameter_space.py
 
 """
 Functionality:
@@ -21,6 +21,8 @@ from typing import Any, Dict, List
 import matplotlib.pyplot as plt
 import mngs
 import pandas as pd
+
+CONFIG = mngs.io.load_configs()
 
 
 def define_parameter_space(param_name: str) -> List[Dict[str, Any]]:
@@ -85,7 +87,7 @@ if __name__ == "__main__":
         sys, plt, verbose=False
     )
 
-    define_parameter_space("fs")
+    params = define_parameter_space("fs")
     main()
 
     mngs.gen.close(CONFIG, verbose=False, notify=False)
