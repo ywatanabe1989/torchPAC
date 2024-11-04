@@ -57,21 +57,6 @@
 %% Referencing to external files
 %% \usepackage{xr}
 \usepackage{xr-hyper}
-% Edit to ref between main text & supplemental material
-\usepackage{xr}
-\makeatletter
-\newcommand*{\addFileDependency}[1]{% argument=file name and extension
-  \typeout{(#1)}
-  \@addtofilelist{#1}
-  \IfFileExists{#1}{}{\typeout{No file #1.}}
-}
-\makeatother
-
-\newcommand*{\link}[2][]{%
-    \externaldocument[#1]{#2}%
-    \addFileDependency{#2.tex}%
-    \addFileDependency{#2.aux}%
-}
 %% Image width
 \newlength{\imagewidth}
 \newlength{\imagescale}
@@ -166,8 +151,6 @@
     Supplementary Materials S\hlref{#1}}
 
 
-\link[supple-]{../supplementary/main} % Works
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% JOURNAL NAME
@@ -184,43 +167,16 @@
 %% Frontmatter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frontmatter}
-%% \begin{highlights}
-%% \pdfbookmark[1]{Highlights}{highlights}
-
-%% \item Highlight \#1
-
-%% \item Highlight \#2
-
-%% \item Highlight \#3
-
-%% \item Highlight \#4
-
-%% \end{highlights}
-\title{
-GPU-accerelated implementation of phase-amplitude coupling
-}
+    \title{Supplementary Information}
 \author[1,2]{Yusuke Watanabe\corref{cor1}}
 \author[1,5]{Takufumi Yanagisawa}
 
-\address[1]{Institute for Advanced Cocreation studies, Osaka University, 2-2 Yamadaoka, Suita, 565-0871, Osaka, Japan}
+
+\address[1]{Institute for Advanced Cocreation studies, Osaka University, 2-2 Yamadaoka, Suita, 565-0871, Osaka, J
 \address[2]{NeuroEngineering Research Laboratory, Department of Biomedical Engineering, The University of Melbourne, Parkville VIC 3010, Australia}
 \address[5]{Department of Neurosurgery, Osaka University Graduate School of Medicine, 2-2 Yamadaoka, Osaka, 565-0871, Japan}
 
 \cortext[cor1]{Corresponding author. Tel: +XX-X-XXXX-XXXX Email: ywatanabe@alumni.u-tokyo.ac.jp}
-%%Graphical abstract
-%\pdfbookmark[1]{Graphical Abstract}{graphicalabstract}        
-%\begin{graphicalabstract}
-%\includegraphics{grabs}
-%\end{graphicalabstract}
-\begin{abstract}
-  \pdfbookmark[1]{Abstract}{abstract}
-Abstract here.
-\end{abstract}
-
-% \pdfbookmark[1]{Keywords}{keywords}                
-\begin{keyword}
-phase-amplitude coupling \sep gpu \sep parallel computing
-\end{keyword}
 \end{frontmatter}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -235,63 +191,58 @@ phase-amplitude coupling \sep gpu \sep parallel computing
 %% \end{*wordcount}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% INTRODUCTION
+%% SUPPLEMENTARY METHODS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Introduction}
-Introduction here.
-\label{sec:introduction}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% METHODS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Methods}
-
-\subsection{Method Headline \#1}
-Method here.
-
-\subsection{Method Headline \#2}
-Method here.
-
-\label{sec:methods}
-
+\section{Supplementary Methods}
+Supplementary Methods
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% RESULTS
+%% SUPPLEMENTARY RESULTS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Results}
-\subsection{Result Headline \#1}
-Result here.
+\section{Supplementary Results}
+Supplementary Results
+Figure~\sref{fig:01_correlations_among_variables}
 
-\subsection{Result Headline \#2}
-Result here.
-
-You might want to use \textit{textit}, \footnote{footnote}, and \hlref{fig:01_XX}.
-
-\label{sec:results}
+Tables~\sref{tab:10_swr_direction_match_all_vswr_time}
+ \sref{tab:11_swr_direction_match_in_vswr_time}
+ \sref{tab:12_swr_direction_mismatch_out_vswr_time})
+Tables~\sref{tab:13_swr_direction_match_all_vswr_jump}
+ \sref{tab:14_swr_direction_match_in_vswr_jump}
+ \sref{tab:15_swr_direction_mismatch_out_vswr_jump})
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% DISCUSSION
+%% SUPPLEMENTARY TABLES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Discussion}
-Discussion here.
-\label{sec:discussion}
+\clearpage
+\section{Supplementary Tables}
+\label{supplementary_tables}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% DATA AVAILABILITY
+%% SUPPLEMENTARY FIGURES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pdfbookmark[1]{Data Availability Statement}{data_availability}
-\section*{Data Availability Statement}
-Data and code used in this study is available on https://github.com/ywatanabe1989/torchPAC.
+\clearpage
+\section{Supplementary Figures}
+\label{supplementary_figures}
 
-\label{data and code availability}
-
+        \clearpage
+        \begin{figure*}[ht]
+            \pdfbookmark[2]{ID 01_xxx}{figure_id_01_xxx}
+        	\centering
+%            \includegraphics[width=1\textwidth]{./src/figures/src/jpg/Figure_ID_01_xxx.jpg}
+        	\caption{\textbf{Figure title here}
+\smallskip
+\\
+Figure legend here
+}
+% width=1\textwidth
+        	\label{fig:01_xxx}
+        \end{figure*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% REFERENCE STYLES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pdfbookmark[1]{References}{references}
-%% \bibliography{main}
 \bibliography{./src/bibliography}
 % Note Re-compile is required
 
@@ -312,80 +263,18 @@ Data and code used in this study is available on https://github.com/ywatanabe198
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% ADDITIONAL INFORMATION
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pdfbookmark[1]{Additional Information}{additional_information}
-
-\pdfbookmark[2]{Ethics Declarations}{ethics_declarations}                    
-\section*{Ethics Declarations}
-All study participants provided their written informed consent ...
-\label{ethics declarations}
-
-\pdfbookmark[2]{Contributors}{author_contributions}                    
-\section*{Author Contributions}
-Y.W. and T.Y. conceptualized the study ...
-\label{author contributions}
-
-\pdfbookmark[2]{Acknowledgments}{acknowledgments}                    
-\section*{Acknowledgments}
-This research was funded by ...
-\label{acknowledgments}
-
-\pdfbookmark[2]{Declaration of Interests}{declaration_of_interest}                    
-\section*{Declaration of Interests}
-The authors declare that they have no competing interests.
-\label{declaration of interests}
-
-\pdfbookmark[2]{Inclusion and Diversity Statement}{inclusion_and_diversity_statement}        
-\section*{Inclusion and Diversity Statement}
-We support inclusive, diverse, and equitable conduct of research.
-\label{inclusion and diversity statement}
-
-\pdfbookmark[2]{Declaration of Generative AI in Scientific Writing}{declaration_of_generative_ai}
-\section*{Declaration of Generative AI in Scientific Writing}
-The authors employed ChatGPT, provided by OpenAI, for enhancing the manuscript's English language quality. After incorporating the suggested improvements, the authors meticulously revised the content. Ultimate responsibility for the final content of this publication rests entirely with the authors.
-\label{declaration of generative ai in scientific writing}
-
-%% \pdfbookmark[2]{Appendices}{appendices}                    
-%% \appendix
-%% \section{}
-%% \label{}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% TABLES
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
-\section*{Tables}
-\label{tables}
-\pdfbookmark[1]{Tables}{tables}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% FIGURES
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
-\section*{Figures}
-\label{figures}
-\pdfbookmark[1]{Figures}{figures}
-
-        \clearpage
-        \begin{figure*}[ht]
-            \pdfbookmark[2]{ID 01}{figure_id_01}
-        	\centering
-%            \includegraphics[width=1\textwidth]{./src/figures/src/jpg/Figure_ID_01.jpg}
-        	\caption{\textbf{
-Figure #1
-}
-\smallskip
-\\
-\textbf{\textit{A.}} Figure legend here.
-}
-% width=1\textwidth
-        	\label{fig:01}
-        \end{figure*}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% END
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 \endinput
+
+%% \usepackage{xr}
+%% \externaldocument{chapterI}
+%% And then can use \sref{a} like normal. You can also add a prefix:
+
+%% \externaldocument[I-]{chapterI}
+%% Then, you can reference it as \sref{I-a} which is useful if you have identical label names in different chapters.
+
+%% Note that the normal xr doesn't add hyperlinks. It only adds the label text. The zref package can be used for this. It provides the zref-xr subpackage which gives you the same functionality and should work fine with hyperref (after all both packages are from the same author). You only need to replace \externaldocument with \zexternaldocument and \sref with \zref.
+
+%% Note that the xr package reads the aux file, e.g. in this case, it checks chapterI.aux for references.
