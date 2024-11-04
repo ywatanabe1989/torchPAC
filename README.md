@@ -1,7 +1,7 @@
 <!-- ---
 !-- title: README.md
 !-- author: ywatanabe
-!-- date: 2024-11-04 14:55:57
+!-- date: 2024-11-04 14:56:36
 !-- --- -->
 
 
@@ -19,8 +19,7 @@ See [installation guide](./docs/installation.md)
 
 ### Run Experiments ([`./scripts/run_experiment.sh`](./scripts/run_experiment.sh))
 ```bash
-ss torch_PAC_run_experiment 
-./scripts/run_experiment.sh
+screen -dmS torch_PAC_run_experiment ./scripts/run_experiment.sh
 ```
 
 ## Results
