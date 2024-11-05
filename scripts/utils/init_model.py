@@ -5,7 +5,7 @@
 
 from typing import Union
 
-from scripts.Handlers import MNGSHandler, TensorpacHandler
+from scripts.PackageHandlers import MNGSHandler, TensorpacHandler
 
 def init_model(params: dict) -> Union[MNGSHandler, TensorpacHandler]:
     params_h = params.copy()
