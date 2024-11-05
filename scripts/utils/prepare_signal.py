@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-11-05 00:12:37 (ywatanabe)"
+# Time-stamp: "2024-11-06 00:14:48 (ywatanabe)"
 # File: ./torchPAC/scripts/utils/prepare_signal.py
 
 from typing import Union
@@ -13,7 +13,7 @@ import torch
 def prepare_signal(params: dict) -> Union[np.ndarray, torch.Tensor]:
     try:
         signal, _, _ = mngs.dsp.demo_sig(
-            sig_type="pac",
+            sig_type="tensorpac",
             batch_size=params["batch_size"],
             n_chs=params["n_chs"],
             n_segments=params["n_segments"],

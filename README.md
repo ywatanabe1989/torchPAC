@@ -1,7 +1,7 @@
 <!-- ---
 !-- title: ./torchPAC/README.md
 !-- author: ywatanabe
-!-- date: 2024-11-05 10:50:20
+!-- date: 2024-11-05 21:34:39
 !-- --- -->
 
 
@@ -13,15 +13,12 @@
 ## Installation
 See [installation guide](./docs/installation.md)
 
-## Experiment
-
-./scripts/main.py
-./scripts/main/RUNNING/
-
-### Run Experiments
+## Scripts
 ```bash
 screen -dmS torch_PAC_run_experiment ./scripts/run_experiment.sh
+./scripts/link_data.py
 ```
+
 
 ## Results
 ### Parameters
