@@ -1,0 +1,64 @@
+#+TITLE: ./torchPAC/README.org
+#+AUTHOR: ywatanabe
+#+DATE: 2024-11-06 02:34:49
+
+
+
+
+
+
+
+
+
+
+
+
+* TorchPAC: Fast and Learnable calculation of Phase-Amplitude Coupling
+
+** Manuscript
+[[./paper/manuscript/main/manuscript.pdf][manuscript.pdf]]
+
+** Installation
+See [[./docs/installation.md][installation guide]]
+
+** Scripts
+#+begin_src bash
+screen -dmS torch_PAC_run_experiment ./scripts/run_experiment.sh
+./scripts/link_data.py
+#+end_src
+
+** Results
+**** TODO Precision of PAC values (MSE)
+- [ ] RMSE, MAE, correlation coefficients between the tensorpac package
+  
+**** TODO CPU, GPU, RAM, and VRAM usage
+  
+**** TODO Training PAC Net
+- [ ] Real world data
+
+**** DONE Computational Speed
+     ./scripts/plot_linked_data.py
+
+** Discussion
+*** Evaluation Metrics
+- PAC Values 
+- Calculation Speed
+- RAM Usage
+
+** Contact
+Yusuke Watanabe (Yusuke.Watanabe@unimelb.edu.au)
+
+- Diagram
+
+- Data Preparation
+  - Synthetic data
+  - Physiological data  
+
+- Phase-Amplitude Coupling    
+  - Bandpass Filtering
+  - Hilbert Transformation
+  - Modulation Index
+
+- PAC Training
+
+- Classificaiton  
