@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-11-05 09:46:10 (ywatanabe)"
+# Time-stamp: "2024-11-05 10:36:06 (ywatanabe)"
 # File: ./torchPAC/scripts/main.py
 
 """
@@ -97,9 +97,14 @@ def run_condition(
 def main(CONFIG) -> None:
     """Main function to iterate through parameter spaces and run PAC calculations."""
 
-    PARAMS_SPACE = CONFIG.PARAMS.ALL.keys()
-    for prams in mngs.utils.yields_grid(PARAMS_SPACE):
-        run_condition(CONFIG, params, condition_count)
+    condition_count = 0 # fake
+    PARAMS_SPACE = CONFIG.PARAMS.ALL
+    for params in mngs.utils.yield_grids(PARAMS_SPACE):
+        try:
+            run_condition(CONFIG, params, condition_count)
+            condition_count += 1
+        except Exception as e:
+            print(e)
     # condition_count = 0
     # for param_name in PARAM_NAMES:
     #     params_list = define_parameter_space(param_name)

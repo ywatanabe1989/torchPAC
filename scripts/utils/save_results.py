@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-11-05 05:37:34 (ywatanabe)"
+# Time-stamp: "2024-11-05 10:48:40 (ywatanabe)"
 # File: ./torchPAC/scripts/utils/save_results.py
 
 from typing import Any, Dict
 
 import mngs
 import pandas as pd
+import torch
 
 
 def dict_to_df(params: Dict[str, Any]) -> pd.DataFrame:
@@ -17,7 +18,6 @@ def dict_to_series(params: Dict[str, Any]) -> pd.Series:
     """Convert parameters dictionary to Series with proper values."""
     return pd.Series(params.values(), index=params.keys())
 
-
 def save_results(model, xpac, params, CONFIG):
     mngs.str.printc(
         f"{params['package']}\n"
@@ -26,6 +26,11 @@ def save_results(model, xpac, params, CONFIG):
         c="green" if params["package"] == "mngs" else "magenta",
     )
 
+    # Convert CUDA tensor to numpy
+    if torch.is_tensor(xpac):
+        if xpac.is_cuda:
+            xpac = xpac.detach().cpu()
+        xpac = xpac.numpy()
     mngs.io.save(xpac, CONFIG["SDIR"] + "xpac.npy")
 
     # Time

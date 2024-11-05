@@ -1,9 +1,9 @@
 #!/bin/bash
-# Time-stamp: "2024-11-04 17:10:04 (ywatanabe)"
+# Time-stamp: "2024-11-05 10:00:01 (ywatanabe)"
 # File: ./torchPAC/scripts/run_experiment.sh
 
 
-LOG_FILE="$0.sh.log"
+LOG_FILE="$0.log"
 start=$(date +"%Y%m%d_%H%M%S")
 
 usage() {
@@ -67,9 +67,9 @@ main() {
         shift
     done
 
-    run_experiment # 2>&1 | tee "$LOG_FILE"
+    run_experiment
 }
 
-main "$@" # 
+main "$@" 2>&1 | tee "$LOG_FILE"
 
 # EOF

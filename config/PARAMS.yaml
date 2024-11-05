@@ -1,4 +1,4 @@
-# Time-stamp: "2024-11-05 09:45:10 (ywatanabe)"
+# Time-stamp: "2024-11-05 10:22:02 (ywatanabe)"
 # File: ./torchPAC/config/PARAMS.yaml
 
 PARAMS:
@@ -71,12 +71,13 @@ PARAMS:
     chunk_size: [2, 4, 8]
     n_perm: [null, 1, 2, 4, 8, 16]
     fp16: [false, true]
-
+    n_calc: [10]
+    
     # MNGS-specific Parameters
     no_grad: [false, true]
     in_place: [false, true]
     trainable: [false, true]
-    device: [false, cuda]
+    device: [cpu, cuda]
 
     # Tensorpac-specific Parameters
     use_threads: [false, true]
