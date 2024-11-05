@@ -1,5 +1,7 @@
 #!/bin/bash
-# ./paper/manuscript/scripts/sh/modules/process_figures.sh
+# Time-stamp: "2024-11-06 08:55:33 (ywatanabe)"
+# File: ./torchPAC/paper/manuscript/scripts/sh/modules/process_figures.sh
+
 
 echo -e "$0 ...\n"
 
@@ -136,13 +138,13 @@ compile_legends () {
 
         cat <<EOF > "$tgt_file"
         \clearpage
-        \begin{figure*}[ht]
+        \begin{figure}[ht]
             \pdfbookmark[2]{ID $figure_id}{figure_id_$figure_id}
         	\centering
             \includegraphics[width=$width]{$FIGURE_JPG_DIR/${fname%.tex}.jpg}
         	$figure_content
         	\label{fig:$figure_id}
-        \end{figure*}
+        \end{figure}
 EOF
         ((ii++))
     done
@@ -224,3 +226,6 @@ main "$@"
 # EOF
 
 # /home/ywatanabe/proj/ripple-wm/paper/manuscript/scripts/sh/modules/process_figures.sh true true
+
+
+# EOF
