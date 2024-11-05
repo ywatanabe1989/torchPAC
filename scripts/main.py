@@ -1,8 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-10-18 15:32:36 (ywatanabe)"
-# Author: Yusuke Watanabe (ywata1989@gmail.com)
-# ./scripts/main.py
+# Time-stamp: "2024-11-05 10:36:06 (ywatanabe)"
+# File: ./torchPAC/scripts/main.py
 
 """
 Functionality:
@@ -16,74 +15,144 @@ Prerequisites:
     * Custom Handlers (MNGSHandler, TensorpacHandler)
 """
 
-import sys
+import os
+from typing import Any, Dict
+
 import mngs
-import torch
-import pandas as pd
-from utils.prepare_signal import prepare_signal
-from utils.init_model import init_model
-import multiprocessing
+from scripts.utils.define_parameter_space import define_parameter_space
+from scripts.utils.init_model import init_model
+from scripts.utils.perform_pac_calculation import perform_pac_calculation
+from scripts.utils.prepare_signal import prepare_signal
+from scripts.utils.save_results import save_results
 
-def main():
-    PARAM_SPACES = mngs.io.load("./config/PARAM_SPACES.yaml")
-    for params in mngs.gen.yield_grids(PARAM_SPACES, random=True):
-        run_condition(params)
-        torch.cuda.empty_cache()
+CONFIG = mngs.io.load_configs()
 
 
-def run_condition(params: dict) -> None:
-    import matplotlib.pyplot as plt
-    import sys
-    import matplotlib.pyplot as plt
+def run_condition(
+    CONFIG, params: Dict[str, Any], condition_count: int
+) -> None:
+    """Executes PAC calculation for given parameters.
 
-    ts = mngs.gen.TimeStamper()
-    params["ts"] = ts
+    Parameters
+    ----------
+    params : Dict[str, Any]
+        Dictionary containing calculation parameters
 
-    CONFIG, sys.stdout, sys.stderr, plt, CC = mngs.gen.start(sys, plt, verbose=False, agg=True)
+    Returns
+    -------
+    None
+    """
 
-    mngs.gen.print_block(params, c="yellow")
+    # Time stamper
+    params["ts"] = mngs.gen.TimeStamper()
 
+    # Sequence length
     params["seq_len"] = int(params["t_sec"] * params["fs"])
-    model = init_model(params)
-    signal = prepare_signal(params)
 
-    if model is None or signal is None:
+    # Update SDIR
+    CONFIG = CONFIG.copy()
+    CONFIG.SDIR = os.path.join(
+        CONFIG.SDIR, f"condition_{condition_count:04d}/"
+    )
+
+    # Model
+    model = init_model(params)
+    if model is None:
         return
 
-    perform_pac_calculation(model, signal, params)
-    save_results(model, params, CONFIG)
+    # Signal
+    signal = prepare_signal(params)
+    if signal is None:
+        return
 
-    mngs.gen.close(CONFIG, verbose=False, notify=False)
+    # Main
+    xpac = perform_pac_calculation(model, signal, params)
+
+    # Saving
+    save_results(model, xpac, params, CONFIG)
+
+    # Cleanup
     del model
 
-def perform_pac_calculation(model, signal, params):
-    try:
-        for _ in range(params["n_calc"]):
-            model.ts(model.calc_start_str)
-            if params["no_grad"]:
-                with torch.no_grad():
-                    model.calc_pac(signal)
-            else:
-                model.calc_pac(signal)
-            model.ts(model.calc_end_str)
-    except Exception as exception:
-        print(f"Error in PAC calculation: {exception}")
 
-def save_results(model, params, CONFIG):
-    mngs.gen.print_block(
-        f"{params['package']}\n"
-        f"{model.stats['calc_time_mean_sec'].iloc[0]} +/- {model.stats['calc_time_std_sec'].iloc[0]} sec",
-        c="green" if params["package"] == "mngs" else "magenta",
-    )
-    mngs.io.save(model.stats, CONFIG["SDIR"] + "stats.csv")
+# def main(CONFIG) -> None:
+#     """Main function to iterate through parameter spaces and run PAC calculations."""
 
-    params_copy = params.copy()
-    del params_copy["ts"]
-    mngs.io.save(pd.DataFrame(pd.Series(params_copy)).T, CONFIG["SDIR"] + "params.csv")
+#     PARAM_NAMES = CONFIG.PARAMS.VARIATIONS.keys()
+#     condition_count = 0
+#     for param_name in PARAM_NAMES:
+#         params_list = define_parameter_space(param_name)
+#         for params in params_list:
+#             for package in CONFIG.PACKAGES:
+#                 try:
+#                     params["package"] = package
+#                     run_condition(CONFIG, params, condition_count)
+#                     condition_count += 1
+#                 except Exception as e:
+#                     print(e)
+
+#     mngs.sh(f"cp ./tmp/processor_usages.csv {COFIG.SDIR}")
+#     return 0
+
+def main(CONFIG) -> None:
+    """Main function to iterate through parameter spaces and run PAC calculations."""
+
+    condition_count = 0 # fake
+    PARAMS_SPACE = CONFIG.PARAMS.ALL
+    for params in mngs.utils.yield_grids(PARAMS_SPACE):
+        try:
+            run_condition(CONFIG, params, condition_count)
+            condition_count += 1
+        except Exception as e:
+            print(e)
+    # condition_count = 0
+    # for param_name in PARAM_NAMES:
+    #     params_list = define_parameter_space(param_name)
+    #     for params in params_list:
+    #         for package in CONFIG.PACKAGES:
+    #             try:
+    #                 params["package"] = package
+    #                 run_condition(CONFIG, params, condition_count)
+    #                 condition_count += 1
+    #             except Exception as e:
+    #                 print(e)
+
+    mngs.sh(f"cp ./tmp/processor_usages.csv {COFIG.SDIR}")
+    return 0
+
 
 
 if __name__ == "__main__":
-    multiprocessing.set_start_method('spawn')
-    main()
+    # -----------------------------------
+    # Initiatialization of mngs format
+    # -----------------------------------
+    import sys
+
+    import matplotlib.pyplot as plt
+
+    # Configurations
+    CONFIG, sys.stdout, sys.stderr, plt, CC = mngs.gen.start(
+        sys,
+        plt,
+        verbose=False,
+        agg=True,
+        # sdir_suffix="",
+    )
+    # -----------------------------------
+    # Main
+    # -----------------------------------
+
+    exit_status = main(CONFIG)
+
+    # -----------------------------------
+    # Cleanup mngs format
+    # -----------------------------------
+    mngs.gen.close(
+        CONFIG,
+        verbose=False,
+        notify=False,
+        message="",
+        exit_status=exit_status,
+    )
 
 # EOF

@@ -1,9 +1,10 @@
 #!/bin/bash
-# Time-stamp: "2024-11-04 14:56:10 (ywatanabe)"
+# Time-stamp: "2024-11-05 10:00:01 (ywatanabe)"
 # File: ./torchPAC/scripts/run_experiment.sh
 
 
-LOG_FILE="${0%.sh}.log"
+LOG_FILE="$0.log"
+start=$(date +"%Y%m%d_%H%M%S")
 
 usage() {
     echo "Usage: $0 [-h|--help]"
@@ -15,40 +16,46 @@ usage() {
     exit 1
 }
 
-kill_py() {
-    # Terminates all Python processes for the current user
-    ps aux | grep "$(whoami)" | grep 'python' | awk '{ print "kill", $2 }' | sh
-}
-
-initialize() {
-    sudo nvidia-smi -pm 1
-    # Preparation
-    kill_py
-    rm -rf \
-       ./scripts/main/FINISHED* \
-       ./scripts/main/RUNNING/ \
-       /tmp/mngs/processer_usages.csv 
-}
-
 run_experiment() {
     # Executes the experiment workflow
     #
     # Usage:
     # run_experiment
 
-    initialize
+    _initialize
 
     # Start logging CPU / GPU usages
-    ./scripts/log_processer_usages.py -i 0.33 -r &
+    ./scripts/record_processer_usages.py --interval_s 0.33 --init &
 
     # PAC calculation with stats recording
-    ./scripts/main.py &&
+    ./scripts/main.py
 
-    # Plot the metrics
-    ./scripts/plot_parallel.py &&
+    end=$(date +"%Y%m%d_%H%M%S")
 
     # Close
-    kill_py
+    _kill_py
+
+    # 
+    cp -v /tmp/processor_usages.csv ./data/processor_usages-"$start"-"$end".csv
+    # # Plot the metrics
+    # ./scripts/plot_parallel.py &&
+
+
+}
+
+_initialize() {
+    sudo nvidia-smi -pm 1 >/dev/null 2>&1
+    # Preparation
+    _kill_py
+    rm -rf \
+       ./scripts/main/FINISHED* \
+       ./scripts/main/RUNNING/ \
+       /tmp/mngs/processer_usages.csv 
+}
+
+_kill_py() {
+    # Terminates all Python processes for the current user
+    ps aux | grep "$(whoami)" | grep 'python' | awk '{ print "kill", $2 }' | sh
 }
 
 main() {
@@ -63,6 +70,6 @@ main() {
     run_experiment
 }
 
-{ main "$@"; } 2>&1 | tee "$LOG_FILE"
+main "$@" 2>&1 | tee "$LOG_FILE"
 
 # EOF

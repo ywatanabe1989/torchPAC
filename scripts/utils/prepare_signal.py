@@ -1,8 +1,14 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# Time-stamp: "2024-11-05 00:12:37 (ywatanabe)"
+# File: ./torchPAC/scripts/utils/prepare_signal.py
+
 from typing import Union
+
+import mngs
 import numpy as np
 import torch
-import mngs
-from scripts.Handlers import MNGSHandler, TensorpacHandler
+
 
 def prepare_signal(params: dict) -> Union[np.ndarray, torch.Tensor]:
     try:
@@ -22,3 +28,6 @@ def prepare_signal(params: dict) -> Union[np.ndarray, torch.Tensor]:
     except Exception as exception:
         print(exception)
         return None
+
+
+# EOF

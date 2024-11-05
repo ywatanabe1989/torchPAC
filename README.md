@@ -1,7 +1,7 @@
 <!-- ---
-!-- title: README.md
+!-- title: ./torchPAC/README.md
 !-- author: ywatanabe
-!-- date: 2024-11-04 14:57:05
+!-- date: 2024-11-05 10:50:20
 !-- --- -->
 
 
@@ -14,8 +14,9 @@
 See [installation guide](./docs/installation.md)
 
 ## Experiment
-### Parameter Space
-[`./config/PARAMETER_SPACES.yaml`](./config/PARAMETER_SPACES.yaml)
+
+./scripts/main.py
+./scripts/main/RUNNING/
 
 ### Run Experiments
 ```bash

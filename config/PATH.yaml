@@ -1,4 +1,10 @@
+# Time-stamp: "2024-11-05 09:23:31 (ywatanabe)"
+# File: ./torchPAC/config/PATH.yaml
+
 PATH:
   PROCESSOR_USAGE:
-    "./data/processer_usages.csv "
+    "/tmp/processor_usages.csv"
+  STATS:
+    f"./scripts/main/FINISHED_SUCCESS/2024Y-11M-05D-09h17m20s_LkCN/condition_{id}/stats.csv"
+    # f"./scripts/main/FINISHED_SUCCESS/2024Y-11M-05D-05h51m11s_NTtK/condition_{id}/stats.csv"
 

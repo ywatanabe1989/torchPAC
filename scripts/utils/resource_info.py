@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-11-04 11:35:14 (ywatanabe)"
-# File: ./torchPAC/scripts/resource_info.py
+# Time-stamp: "2024-11-05 00:13:20 (ywatanabe)"
+# File: ./torchPAC/scripts/utils/resource_info.py
 
 """
 Functionality:
@@ -17,12 +17,13 @@ Prerequisites:
 
 """Imports"""
 import sys
+from typing import Any, Dict
+
 import matplotlib.pyplot as plt
 import mngs
-from typing import Dict, Any
 
 """Config"""
-CONFIG = mngs.gen.load_configs()
+CONFIG = mngs.io.load_configs()
 
 """Functions & Classes"""
 def main() -> None:
